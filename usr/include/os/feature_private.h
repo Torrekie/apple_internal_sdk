@@ -27,4 +27,6 @@ bool _os_feature_enabled_simple_impl(const char *domain, const char *feature, bo
 
 __END_DECLS
 
+#pragma clang assume_nonnull end
+
 #endif
