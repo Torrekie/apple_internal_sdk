@@ -112,27 +112,36 @@ typedef void (^CSSegmentIterator)(CSSegmentRef segment);
 /*
  * Defines
  */
-#define kCSNull								((CSTypeRef) {NULL, NULL})
-#define kCSNow								0x80000000u
+/* Fri Mar 25 16:55:18 CST 2022
+ * reversed from libdtrace.dylib in macOS 11.2.3
+ */
+#define kCSNull						((CSTypeRef) {NULL, NULL})
+#define kCSNow						0x8000000000000000
+
+#define kCSArchitectureArm				0x0000000C
+#define kCSArchitectureArm64 				0x0100000C
+#define kCSArchitectureArm64_32 			0x0200000C
+#define kCSArchitectureI386				0x00000007
+#define kCSArchitectureX86_64				0x01000007
 
 #define kCSSymbolOwnerDataFoundDsym			0x42000000
-#define kCSSymbolOwnerIsAOut				0 // Not sure, haven't found in Apple OSS
-#define kCSSymbolOwnerDataEmpty             1
-#define kCSSymbolicatorTrackDyldActivity	0x80001
+#define kCSSymbolOwnerIsAOut				0x00000010
+#define kCSSymbolOwnerDataEmpty             		0x00000001
+#define kCSSymbolicatorTrackDyldActivity		0x00080001
 
-#define kCSSymbolicatorDefaultCreateFlags   0x00000000
-#define kCSSymbolicatorUseSlidKernelAddresses 0x80000000
-#define kCSSymbolicatorDisallowDsymData     1
+#define kCSSymbolicatorDefaultCreateFlags   		0x80000000
+#define kCSSymbolicatorUseSlidKernelAddresses 		0x00000000
+#define kCSSymbolicatorDisallowDsymData     		0x00080000
 
-#define kCSNotificationPing					1
-#define kCSNotificationInitialized			0x0010
-#define kCSNotificationDyldLoad				0x0100
-#define kCSNotificationDyldUnload			0x0101
-#define kCSNotificationTaskMain             0x0110
+#define kCSNotificationPing				0x00000001
+#define kCSNotificationInitialized			0x00000010
+#define kCSNotificationDyldLoad				0x00000100
+#define kCSNotificationDyldUnload			0x00000101
+#define kCSNotificationTaskMain             		0x00000110
 // kCSNotificationTimeout must be a value greater than 0x1001
-#define kCSNotificationTimeout				0x1002
-#define kCSNotificationTaskExit				0x1000
-#define kCSNotificationFini					0x80000000
+#define kCSNotificationTimeout				0x00001002
+#define kCSNotificationTaskExit				0x00001000
+#define kCSNotificationFini				0x80000000
 
 
 /*
