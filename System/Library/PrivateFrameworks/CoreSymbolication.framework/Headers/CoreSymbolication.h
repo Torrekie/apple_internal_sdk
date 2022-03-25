@@ -50,12 +50,17 @@
 
 #include <CoreFoundation/CoreFoundation.h>
 #include <mach/mach.h>
-
+#include <os/base.h>
 
 /*
  * Types
  */
 // Under the hood the framework basically just calls through to a set of C++ libraries
+typedef struct _CSArchitecture {
+	cpu_type_t cpu_type;
+	cpu_subtype_t cpu_subtype;
+} *CSArchitecture; // I thought CSArchitecture was some unsigned long long before, and yes, it should be struct
+
 struct sCSTypeRef {
 	void* csCppData;	// typically retrieved using CSCppSymbol...::data(csData & 0xFFFFFFF8)
 	void* csCppObj;		// a pointer to the actual CSCppObject
@@ -85,7 +90,7 @@ typedef struct sCSNotificationData {
 	CSSymbolicatorRef symbolicator;
 	union {
 		struct {
-			long value;
+			int value;
 		} ping;
 
 		struct {
@@ -106,7 +111,7 @@ typedef void (^CSSymbolOwnerIterator)(CSSymbolOwnerRef owner);
 typedef int (^CSSectionIterator)(CSSectionRef section);
 typedef int (^CSSourceInfoIterator)(CSSourceInfoRef sourceInfo);
 typedef void (^CSSymbolIterator)(CSSymbolRef symbol);
-typedef void (^CSSegmentIterator)(CSSegmentRef segment);
+typedef int (^CSSegmentIterator)(CSSegmentRef segment);
 
 
 /*
@@ -116,13 +121,13 @@ typedef void (^CSSegmentIterator)(CSSegmentRef segment);
  * reversed from libdtrace.dylib in macOS 11.2.3
  */
 #define kCSNull						((CSTypeRef) {NULL, NULL})
-#define kCSNow						0x8000000000000000
+#define kCSNow						0x80000000u // maybe 0x8000000000000000
 
-#define kCSArchitectureArm				0x0000000C
-#define kCSArchitectureArm64 				0x0100000C
-#define kCSArchitectureArm64_32 			0x0200000C
-#define kCSArchitectureI386				0x00000007
-#define kCSArchitectureX86_64				0x01000007
+#define kCSArchitectureArm				(CSArchitecture)0x0000000C
+#define kCSArchitectureArm64 				(CSArchitecture)0x0100000C
+#define kCSArchitectureArm64_32 			(CSArchitecture)0x0200000C
+#define kCSArchitectureI386				(CSArchitecture)0x00000007
+#define kCSArchitectureX86_64				(CSArchitecture)0x01000007
 
 #define kCSSymbolOwnerDataFoundDsym			0x42000000
 #define kCSSymbolOwnerIsAOut				0x00000010
@@ -148,35 +153,37 @@ typedef void (^CSSegmentIterator)(CSSegmentRef segment);
  * External symbols
  */
 
+__BEGIN_DECLS
+
 const char* kCSRegionMachHeaderName;
-const CSDictionaryKeyCallBacks kCSTypeDictionaryKeyCallBacks;
-const CSDictionaryValueCallBacks kCSTypeDictionaryValueCallBacks;
-const CSDictionaryKeyCallBacks kCSTypeDictionaryWeakKeyCallBacks;
-const CSDictionaryValueCallBacks kCSTypeDictionaryWeakValueCallBacks;
-const CSSetCallBacks kCSTypeSetCallBacks;
-const CSSetCallBacks kCSTypeSetWeakCallBacks;
+const CSDictionaryKeyCallBacks kCSTypeDictionaryKeyCallBacks = 0;
+const CSDictionaryValueCallBacks kCSTypeDictionaryValueCallBacks = 0;
+const CSDictionaryKeyCallBacks kCSTypeDictionaryWeakKeyCallBacks = 0;
+const CSDictionaryValueCallBacks kCSTypeDictionaryWeakValueCallBacks = 0;
+const CSSetCallBacks kCSTypeSetCallBacks = 0;
+const CSSetCallBacks kCSTypeSetWeakCallBacks = 0;
 
 
 /*
  * Architecture functions
  */
 // Valid names: i386, x86_64, arm, armv4t, armv5tej, armv6, armv7, armv7f, armv7k, ppc, ppc64
-cpu_type_t CSArchitectureGetArchitectureForName(const char* arch);
-cpu_type_t CSArchitectureGetCurrent();
-cpu_type_t CSArchitectureGetFamily(cpu_type_t type);
-const char* CSArchitectureGetFamilyName(cpu_type_t type);
+CSArchitecture CSArchitectureGetArchitectureForName(const char* arch);
+CSArchitecture CSArchitectureGetCurrent();
+CSArchitecture CSArchitectureGetFamily(CSArchitecture type);
+const char* CSArchitectureGetFamilyName(CSArchitecture type);
 
-Boolean CSArchitectureIs32Bit(cpu_type_t type);
-Boolean CSArchitectureIs64Bit(cpu_type_t type);
-Boolean CSArchitectureIsArm(cpu_type_t type);
-Boolean CSArchitectureIsBigEndian(cpu_type_t type);
-Boolean CSArchitectureIsI386(cpu_type_t type);
-Boolean CSArchitectureIsLittleEndian(cpu_type_t type);
-Boolean CSArchitectureIsPPC(cpu_type_t type);
-Boolean CSArchitectureIsPPC64(cpu_type_t type);
-Boolean CSArchitectureIsX86_64(cpu_type_t type);
+Boolean CSArchitectureIs32Bit(CSArchitecture type);
+Boolean CSArchitectureIs64Bit(CSArchitecture type);
+Boolean CSArchitectureIsArm(CSArchitecture type);
+Boolean CSArchitectureIsBigEndian(CSArchitecture type);
+Boolean CSArchitectureIsI386(CSArchitecture type);
+Boolean CSArchitectureIsLittleEndian(CSArchitecture type);
+Boolean CSArchitectureIsPPC(CSArchitecture type);
+Boolean CSArchitectureIsPPC64(CSArchitecture type);
+Boolean CSArchitectureIsX86_64(CSArchitecture type);
 
-Boolean CSArchitectureMatchesArchitecture(cpu_type_t a, cpu_type_t b);
+Boolean CSArchitectureMatchesArchitecture(CSArchitecture a, CSArchitecture b);
 
 
 /*
@@ -189,6 +196,7 @@ CFStringRef CSCopyDescriptionWithIndent(CSTypeRef cs, unsigned int indent);
 /*
  * General utility functions
  */
+const char* CSDemangleSymbolName(const char* mangled);
 Boolean CSEqual(CSTypeRef cs1, CSTypeRef cs2);
 //XXX: CSExceptionSafeThreadRunBlock
 CFIndex CSGetRetainCount(CSTypeRef cs);
@@ -218,8 +226,8 @@ CSUUIDRef CSGetDyldSharedCacheUUID(mach_port_t port);
  */
 Boolean CSRangeContainsRange(CSRange r1, CSRange r2);
 Boolean CSRangeIntersectsRange(CSRange r1, CSRange r2);
-unsigned long long CSRangeMax(CSRange range);
-CSRange CSRangeMake(unsigned long long location, unsigned long long length);
+//unsigned long long CSRangeMax(CSRange range);
+//CSRange CSRangeMake(unsigned long long location, unsigned long long length);
 
 
 /*
@@ -368,7 +376,7 @@ CSSymbolOwnerGetSymbolWithMangledName
 CSSymbolOwnerGetSymbolWithName
 CSSymbolOwnerGetSymbolicator
  */
-uintptr_t CSSymbolOwnerGetTransientUserData(CSSymbolOwnerRef);
+uintptr_t CSSymbolOwnerGetTransientUserData(CSSymbolOwnerRef owner);
 /*
 CSSymbolOwnerGetUUID
 CSSymbolOwnerGetUnloadTimestamp
@@ -399,7 +407,7 @@ CSSymbolOwnerSetLoadTimestamp
 CSSymbolOwnerSetPath
 CSSymbolOwnerSetRelocationCount
  */
-CSSymbolOwnerSetTransientUserData(CSSymbolOwnerRef owner, uint32_t gen);
+void CSSymbolOwnerSetTransientUserData(CSSymbolOwnerRef owner, uint32_t gen);
  /*
 CSSymbolOwnerSetUnloadTimestamp
 */
@@ -415,16 +423,16 @@ CFDataRef CSSymbolicatorCreateSignature(CSSymbolicatorRef cs);
 
 CSSymbolicatorRef CSSymbolicatorCreateWithMachKernel(void);
 CSSymbolicatorRef CSSymbolicatorCreateWithMachKernelFlagsAndNotification(long flags, CSNotification notification);
-CSSymbolicatorRef CSSymbolicatorCreateWithPathAndArchitecture(const char* path, cpu_type_t type);
-CSSymbolicatorRef CSSymbolicatorCreateWithPathArchitectureFlagsAndNotification(const char* path, cpu_type_t type, long flags, CSNotification notification);
+CSSymbolicatorRef CSSymbolicatorCreateWithPathAndArchitecture(const char* path, CSArchitecture type);
+CSSymbolicatorRef CSSymbolicatorCreateWithPathArchitectureFlagsAndNotification(const char* path, CSArchitecture type, long flags, CSNotification notification);
 CSSymbolicatorRef CSSymbolicatorCreateWithPid(pid_t pid);
 CSSymbolicatorRef CSSymbolicatorCreateWithPidFlagsAndNotification(pid_t pid, long flags, CSNotification notification);
 CSSymbolicatorRef CSSymbolicatorCreateWithSignature(CFDataRef sig);
 CSSymbolicatorRef CSSymbolicatorCreateWithSignatureAndNotification(CFDataRef sig, CSNotification notification);
 CSSymbolicatorRef CSSymbolicatorCreateWithTask(task_t task);
 CSSymbolicatorRef CSSymbolicatorCreateWithTaskFlagsAndNotification(task_t task, long flags, CSNotification notification);
-CSSymbolicatorRef CSSymbolicatorCreateWithURLAndArchitecture(CFURLRef url, cpu_type_t type);
-CSSymbolicatorRef CSSymbolicatorCreateWithURLArchitectureFlagsAndNotification(CFURLRef url, cpu_type_t type, long flags, CSNotification notification);
+CSSymbolicatorRef CSSymbolicatorCreateWithURLAndArchitecture(CFURLRef url, CSArchitecture type);
+CSSymbolicatorRef CSSymbolicatorCreateWithURLArchitectureFlagsAndNotification(CFURLRef url, CSArchitecture type, long flags, CSNotification notification);
 
 int CSSymbolicatorForceFullSymbolExtraction(CSSymbolicatorRef cs);
 int CSSymbolicatorForeachRegionAtTime(CSSymbolicatorRef cs, uint64_t time, CSRegionIterator it);
@@ -450,7 +458,7 @@ int CSSymbolicatorForeachSymbolWithNameAtTime(CSSymbolicatorRef cs, const char* 
 // XXX: CSSymbolicatorForeachSymbolicatorWithURLFlagsAndNotification
 
 CSSymbolOwnerRef CSSymbolicatorGetAOutSymbolOwner(CSSymbolicatorRef cs);
-cpu_type_t CSSymbolicatorGetArchitecture(CSSymbolicatorRef cs);
+CSArchitecture CSSymbolicatorGetArchitecture(CSSymbolicatorRef cs);
 vm_address_t CSSymbolicatorGetDyldAllImageInfosAddress(CSSymbolicatorRef cs);
 
 long CSSymbolicatorGetFlagsForDebugMapOnlyData(void);
@@ -509,7 +517,7 @@ CSUUIDStringToCFUUIDBytes
 const char* CSSymbolOwnerGetPath(CSSymbolOwnerRef symbol);
 const char* CSSymbolOwnerGetName(CSSymbolOwnerRef symbol);
 vm_address_t CSSymbolOwnerGetBaseAddress(CSSymbolOwnerRef owner);
-cpu_type_t CSSymbolOwnerGetArchitecture(CSSymbolOwnerRef owner);
+CSArchitecture CSSymbolOwnerGetArchitecture(CSSymbolOwnerRef owner);
 Boolean CSSymbolOwnerIsObject(CSSymbolOwnerRef owner);
 long CSSymbolOwnerGetDataFlags(CSSymbolOwnerRef owner);
 CSRegionRef CSSymbolOwnerGetRegionWithName(CSSymbolOwnerRef owner, const char* name);
@@ -518,6 +526,7 @@ CSSymbolRef CSSymbolOwnerGetSymbolWithAddress(CSSymbolOwnerRef owner, mach_vm_ad
 
 long CSSymbolOwnerForeachSymbol(CSSymbolOwnerRef owner, CSSymbolIterator each);
 
+__END_DECLS
 
 enum CSSymbolicatorPrivateFlags { CS_PRIVATE_UNKNOWN_FLAG };
 
