@@ -111,7 +111,7 @@ typedef void (^CSSymbolOwnerIterator)(CSSymbolOwnerRef owner);
 typedef int (^CSSectionIterator)(CSSectionRef section);
 typedef int (^CSSourceInfoIterator)(CSSourceInfoRef sourceInfo);
 typedef void (^CSSymbolIterator)(CSSymbolRef symbol);
-typedef int (^CSSegmentIterator)(CSSegmentRef segment);
+typedef void (^CSSegmentIterator)(CSSegmentRef segment);
 
 
 /*
@@ -341,7 +341,9 @@ CSSymbolOwnerEditRelocations
 CSSymbolOwnerForeachRegion
 CSSymbolOwnerForeachRegionWithName
 CSSymbolOwnerForeachSection
-CSSymbolOwnerForeachSegment
+*/
+void CSSymbolOwnerForeachSegment(CSSymbolOwnerRef owner, CSSegmentIterator it);
+/*
 CSSymbolOwnerForeachSourceInfo
 CSSymbolOwnerForeachSymbol
  */
@@ -350,7 +352,9 @@ void CSSymbolOwnerForeachSymbolWithName(CSSymbolOwnerRef owner,  const char *sna
 /*
 CSSymbolOwnerGetArchitecture
 CSSymbolOwnerGetBaseAddress
-CSSymbolOwnerGetCFUUIDBytes
+*/
+const CFUUIDBytes *CSSymbolOwnerGetCFUUIDBytes(CSSymbolOwnerRef owner);
+/*
 CSSymbolOwnerGetCompatibilityVersion
 CSSymbolOwnerGetCurrentVersion
 CSSymbolOwnerGetDataFlags
