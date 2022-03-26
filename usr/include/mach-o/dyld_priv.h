@@ -132,32 +132,33 @@ extern dyld_platform_t dyld_get_active_platform(void);
 // Sat Mar 26 18:48:53 CST 2022
 // reversed from /usr/lib/libobjc.A.dylib and /usr/lib/system/libcommonCrypto.dylib
 // Also tested
-#define dyld_fall_2017_os_versions		{ 0xFFFFFFFF, 0x07E10901 }
-#define dyld_fall_2018_os_versions		{ 0xFFFFFFFF, 0x07E20901 }
-#define dyld_fall_2019_os_versions		{ 0xFFFFFFFF, 0x07E30901 }
-#define dyld_fall_2020_os_versions		{ 0xFFFFFFFF, 0x07E40901 }
-#define dyld_fall_2021_os_versions		{ 0xFFFFFFFF, 0x07E50901 }
+#define dyld_fall_2017_os_versions		(dyld_build_version_t) { 0xFFFFFFFF, 0x07E10901 }
+#define dyld_fall_2018_os_versions		(dyld_build_version_t) { 0xFFFFFFFF, 0x07E20901 }
+#define dyld_fall_2019_os_versions		(dyld_build_version_t) { 0xFFFFFFFF, 0x07E30901 }
+#define dyld_fall_2020_os_versions		(dyld_build_version_t) { 0xFFFFFFFF, 0x07E40901 }
+#define dyld_fall_2021_os_versions		(dyld_build_version_t) { 0xFFFFFFFF, 0x07E50901 }
 
-#define dyld_platform_version_macOS_10_13	{ PLATFORM_MACOS, 0x000A0D00 }
-#define dyld_platform_version_macOS_10_14	{ PLATFORM_MACOS, 0x000A0E00 }
-#define dyld_platform_version_macOS_10_15	{ PLATFORM_MACOS, 0x000A0F00 }
-#define dyld_platform_version_macOS_10_16	{ PLATFORM_MACOS, 0x000A1000 }
-#define dyld_platform_version_macOS_12_00	{ PLATFORM_MACOS, 0x000C0000 }
+#define dyld_platform_version_macOS_10_13	(dyld_build_version_t) { PLATFORM_MACOS, 0x000A0D00 }
+#define dyld_platform_version_macOS_10_14	(dyld_build_version_t) { PLATFORM_MACOS, 0x000A0E00 }
+#define dyld_platform_version_macOS_10_15	(dyld_build_version_t) { PLATFORM_MACOS, 0x000A0F00 }
+#define dyld_platform_version_macOS_10_16	(dyld_build_version_t) { PLATFORM_MACOS, 0x000A1000 }
+#define dyld_platform_version_macOS_12_00	(dyld_build_version_t) { PLATFORM_MACOS, 0x000C0000 }
 
-#define dyld_platform_version_tvOS_12_0		{ PLATFORM_TVOS, 0x000C0000 }
-#define dyld_platform_version_tvOS_13_0		{ PLATFORM_TVOS, 0x000D0000 }
-#define dyld_platform_version_tvOS_14_0		{ PLATFORM_TVOS, 0x000E0000 }
-#define dyld_platform_version_tvOS_15_0		{ PLATFORM_TVOS, 0x000F0000 }
+#define dyld_platform_version_tvOS_12_0		(dyld_build_version_t) { PLATFORM_TVOS, 0x000C0000 }
+#define dyld_platform_version_tvOS_13_0		(dyld_build_version_t) { PLATFORM_TVOS, 0x000D0000 }
+#define dyld_platform_version_tvOS_14_0		(dyld_build_version_t) { PLATFORM_TVOS, 0x000E0000 }
+#define dyld_platform_version_tvOS_15_0		(dyld_build_version_t) { PLATFORM_TVOS, 0x000F0000 }
 
-#define dyld_platform_version_iOS_12_0		{ PLATFORM_IOS, 0x000C0000 }
-#define dyld_platform_version_iOS_13_0		{ PLATFORM_IOS, 0x000D0000 }
-#define dyld_platform_version_iOS_14_0		{ PLATFORM_IOS, 0x000E0000 }
-#define dyld_platform_version_iOS_15_0		{ PLATFORM_IOS, 0x000F0000 }
+#define dyld_platform_version_iOS_11_0          (dyld_build_version_t) { PLATFORM_IOS, 0x000B0000 }
+#define dyld_platform_version_iOS_12_0		(dyld_build_version_t) { PLATFORM_IOS, 0x000C0000 }
+#define dyld_platform_version_iOS_13_0		(dyld_build_version_t) { PLATFORM_IOS, 0x000D0000 }
+#define dyld_platform_version_iOS_14_0		(dyld_build_version_t) { PLATFORM_IOS, 0x000E0000 }
+#define dyld_platform_version_iOS_15_0		(dyld_build_version_t) { PLATFORM_IOS, 0x000F0000 }
 
-#define dyld_platform_version_watchOS_5_0	{ PLATFORM_WATCHOS, 0x00050000 }
-#define dyld_platform_version_watchOS_6_0	{ PLATFORM_WATCHOS, 0x00060000 }
-#define dyld_platform_version_watchOS_7_0	{ PLATFORM_WATCHOS, 0x00070000 }
-#define dyld_platform_version_watchOS_8_0	{ PLATFORM_WATCHOS, 0x00080000 }
+#define dyld_platform_version_watchOS_5_0	(dyld_build_version_t) { PLATFORM_WATCHOS, 0x00050000 }
+#define dyld_platform_version_watchOS_6_0	(dyld_build_version_t) { PLATFORM_WATCHOS, 0x00060000 }
+#define dyld_platform_version_watchOS_7_0	(dyld_build_version_t) { PLATFORM_WATCHOS, 0x00070000 }
+#define dyld_platform_version_watchOS_8_0	(dyld_build_version_t) { PLATFORM_WATCHOS, 0x00080000 }
 
 // Base platforms are platforms that have version numbers (macOS, iOS, watchos, tvOS, bridgeOS)
 // All other platforms are mapped to a base platform for version checks
