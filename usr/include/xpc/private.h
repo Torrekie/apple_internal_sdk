@@ -1,4 +1,5 @@
 // modified from WTF/wtf/spi/darwin/XPCSPI.h
+// Most values searched from Apple OSS
 #ifndef __XPC_PRIVATE_H__
 #define __XPC_PRIVATE_H__
 
@@ -19,13 +20,17 @@ enum {
 #define XPC_NOESCAPE
 #endif
 
+typedef xpc_object_t xpc_bundle_t;
+
 typedef struct {
 	char *stream;
 	uint64_t token;
 } xpc_event_publisher_t;
 
 typedef int xpc_event_publisher_action_t;
+typedef boolean_t (*xpc_array_applier_func_t)(size_t, xpc_object_t, void *);
 typedef boolean_t (*xpc_pipe_mig_call_t)(mach_msg_header_t *request, mach_msg_header_t *reply);
+typedef int64_t xpc_service_type_t;
 
 XPC_ASSUME_NONNULL_BEGIN
 __BEGIN_DECLS
@@ -51,13 +56,55 @@ XPC_EXPORT
 XPC_TYPE(_xpc_type_pipe);
 XPC_DECL(xpc_pipe);
 
+#pragma mark Bundle
+
+XPC_EXPORT
+xpc_bundle_t
+xpc_bundle_create(const char *bundle, int mode);
+
+XPC_EXPORT
+const char *
+xpc_bundle_get_executable_path(xpc_object_t bundle);
+
+XPC_EXPORT
+xpc_object_t
+xpc_bundle_get_info_dictionary(xpc_bundle_t bundle);
+
+#pragma mark Dictionary
+
+XPC_EXPORT XPC_NONNULL_ALL
+mach_port_t
+xpc_dictionary_copy_mach_send(xpc_object_t xdict, const char *key);
+
+XPC_EXPORT XPC_NONNULL_ALL
+boolean_t
+xpc_dictionary_expects_reply(xpc_object_t xdict);
+
+XPC_EXPORT XPC_NONNULL1 XPC_NONNULL2
+void
+xpc_dictionary_extract_mach_recv(xpc_object_t xdict, const char *key);
+
 XPC_EXPORT XPC_NONNULL_ALL
 void
 xpc_dictionary_get_audit_token(xpc_object_t xdict, audit_token_t *token);
 
 XPC_EXPORT XPC_NONNULL_ALL
-boolean_t
-xpc_dictionary_expects_reply(xpc_object_t xdict);
+pointer_t
+xpc_dictionary_get_pointer(xpc_object_t xdict, const char *key);
+
+XPC_EXPORT XPC_NONNULL1 XPC_NONNULL2
+void
+xpc_dictionary_set_mach_recv(xpc_object_t xdict, const char *key, mach_port_t value);
+
+XPC_EXPORT XPC_NONNULL1 XPC_NONNULL2
+void
+xpc_dictionary_set_mach_send(xpc_object_t xdict, const char *key, mach_port_t value);
+
+XPC_EXPORT
+void
+xpc_dictionary_set_pointer(xpc_object_t xdict, const char *key, pointer_t value);
+
+#pragma mark Mach
 
 __OSX_AVAILABLE_STARTING(__MAC_10_7, __IPHONE_5_0)
 XPC_EXPORT XPC_MALLOC XPC_RETURNS_RETAINED XPC_WARN_RESULT
@@ -72,22 +119,6 @@ XPC_EXPORT XPC_NONNULL_ALL
 mach_port_t
 xpc_mach_send_copy_right(xpc_object_t xsend);
 
-XPC_EXPORT XPC_NONNULL1 XPC_NONNULL2
-void
-xpc_dictionary_set_mach_send(xpc_object_t xdict, const char *key, mach_port_t value);
-
-XPC_EXPORT XPC_NONNULL_ALL
-mach_port_t
-xpc_dictionary_copy_mach_send(xpc_object_t xdict, const char *key);
-
-XPC_EXPORT XPC_NONNULL1
-void
-xpc_array_set_mach_send(xpc_object_t xarray, size_t index, mach_port_t value);
-
-XPC_EXPORT XPC_NONNULL1
-mach_port_t
-xpc_array_copy_mach_send(xpc_object_t xarray, size_t index);
-
 __OSX_AVAILABLE_STARTING(__MAC_10_7, __IPHONE_5_0)
 XPC_EXPORT XPC_MALLOC XPC_RETURNS_RETAINED XPC_WARN_RESULT
 xpc_object_t
@@ -97,13 +128,7 @@ XPC_EXPORT XPC_NONNULL_ALL
 mach_port_t
 xpc_mach_recv_extract_right(xpc_object_t xrecv);
 
-XPC_EXPORT XPC_NONNULL1 XPC_NONNULL2
-void
-xpc_dictionary_set_mach_recv(xpc_object_t xdict, const char *key, mach_port_t value);
-
-XPC_EXPORT XPC_NONNULL_ALL
-mach_port_t
-xpc_dictionary_extract_mach_recv(xpc_object_t xdict, const char *key);
+#pragma mark Pointer
 
 __OSX_AVAILABLE_STARTING(__MAC_10_9, __IPHONE_7_0)
 XPC_EXPORT XPC_MALLOC XPC_RETURNS_RETAINED XPC_WARN_RESULT
@@ -114,49 +139,153 @@ XPC_EXPORT
 pointer_t
 xpc_pointer_get_value(xpc_object_t xpointer);
 
-XPC_EXPORT
-void
-xpc_dictionary_set_pointer(xpc_object_t xdict, const char *key, pointer_t value);
-
-XPC_EXPORT
-pointer_t
-xpc_dictionary_get_pointer(xpc_object_t xdict, const char *key);
+#pragma mark Array
 
 XPC_EXPORT
 void
-xpc_array_set_pointer(xpc_object_t xarray, size_t index, pointer_t value);
+xpc_array_append_value(xpc_object_t xdict, xpc_object_t string);
+
+XPC_EXPORT
+boolean_t
+xpc_array_apply(xpc_object_t xdict, xpc_array_applier_t);
+
+XPC_EXPORT
+boolean_t
+xpc_array_apply_f(xpc_object_t xdict, xpc_array_applier_func_t, void *);
+
+XPC_EXPORT
+mach_port_t
+xpc_array_copy_mach_send(xpc_object_t xarray, size_t index);
 
 XPC_EXPORT
 pointer_t
 xpc_array_get_pointer(xpc_object_t xarray, size_t index);
 
+XPC_EXPORT XPC_NONNULL1
+void
+xpc_array_set_mach_send(xpc_object_t xarray, size_t index, mach_port_t value);
 
+XPC_EXPORT
+void
+xpc_array_set_pointer(xpc_object_t xarray, size_t index, pointer_t value);
 
-void xpc_transaction_exit_clean(void);
-void xpc_track_activity(void);
+#pragma mark Create
 
-xpc_object_t xpc_connection_copy_entitlement_value(xpc_connection_t connection, const char *entitlement);
-void xpc_connection_get_audit_token(xpc_connection_t, audit_token_t*);
-void xpc_connection_kill(xpc_connection_t, int);
-void xpc_connection_set_instance(xpc_connection_t, uuid_t);
-void xpc_connection_set_target_uid(xpc_connection_t connection, uid_t uid);
+XPC_EXPORT
+xpc_object_t
+xpc_create_from_plist(void *data, size_t size);
 
-void xpc_connection_set_bootstrap(xpc_connection_t, xpc_object_t);
-xpc_object_t xpc_copy_bootstrap();
-xpc_object_t xpc_copy_entitlement_for_token(const char*, audit_token_t*);
-void xpc_connection_set_oneshot_instance(xpc_connection_t, uuid_t instance);
+XPC_EXPORT
+xpc_object_t
+xpc_create_with_format(const char * format, ...);
+
+XPC_EXPORT
+xpc_object_t
+xpc_create_reply_with_format(xpc_object_t original, const char * format, ...);
+
+// Should move to <xpc/xpc_transaction_deprecate.h>
+
+#ifndef __XPC_TRANSACTION_DEPRECATE_H__
+#define __XPC_TRANSACTION_DEPRECATE_H__
+
+#pragma mark Transactions
+
+__OSX_AVAILABLE_STARTING(__MAC_10_7, __IPHONE_5_0)
+XPC_TRANSACTION_DEPRECATED
+void
+xpc_transaction_exit_clean(void);
+
+__OSX_AVAILABLE_STARTING(__MAC_10_7, __IPHONE_5_0)
+XPC_TRANSACTION_DEPRECATED
+void
+xpc_transaction_interrupt_clean_exit(void);
+
+__OSX_AVAILABLE_STARTING(__MAC_10_7, __IPHONE_5_0)
+XPC_TRANSACTION_DEPRECATED
+void
+xpc_transactions_enable(void);
+
+#endif
+
+#pragma mark Tracks
+
+XPC_EXPORT
+void
+xpc_track_activity(void);
+
+#pragma mark Connections
+
+XPC_EXPORT
+xpc_object_t
+xpc_connection_copy_entitlement_value(xpc_connection_t connection, const char *entitlement);
+
+XPC_EXPORT
+void
+xpc_connection_get_audit_token(xpc_connection_t, audit_token_t*);
+
+XPC_EXPORT
+void
+xpc_connection_kill(xpc_connection_t, int);
+
+XPC_EXPORT
+void
+xpc_connection_set_instance(xpc_connection_t, uuid_t);
+
+XPC_EXPORT
+void
+xpc_connection_set_target_uid(xpc_connection_t connection, uid_t uid);
+
+XPC_EXPORT
+void
+xpc_connection_set_bootstrap(xpc_connection_t, xpc_object_t);
+
+XPC_EXPORT
+void
+xpc_connection_set_oneshot_instance(xpc_connection_t, uuid_t instance);
+
+XPC_EXPORT
+xpc_object_t
+xpc_copy_bootstrap(void);
+
+XPC_EXPORT
+xpc_object_t
+xpc_copy_entitlement_for_token(const char*, audit_token_t*);
 
 int _xpc_runtime_is_app_sandboxed();
 
-xpc_object_t xpc_create_from_plist(void *data, size_t size);
-xpc_object_t xpc_create_reply_with_format(xpc_object_t original, const char * format, ...);
+XPC_EXPORT
+boolean_t
+xpc_get_event_name(xpc_event_publisher_t, char *);
 
-int xpc_get_event_name(xpc_event_publisher_t, char *);
-xpc_event_publisher_t xpc_event_publisher_create(const char*, dispatch_queue_t);
-int xpc_event_publisher_fire(xpc_event_publisher_t, uint64_t, int);
-int xpc_event_publisher_fire_noboost(xpc_event_publisher_t, uint64_t, xpc_object_t);
-void xpc_event_publisher_set_handler(xpc_event_publisher_t, void (^)(xpc_event_publisher_action_t action, uint64_t event_token, xpc_object_t descriptor));
-void xpc_event_publisher_set_error_handler(xpc_event_publisher_t, void (^)(int));
+XPC_EXPORT
+boolean_t
+xpc_get_instance(uuid_t);
+
+XPC_EXPORT
+void
+xpc_event_publisher_activate(xpc_event_publisher_t);
+
+XPC_EXPORT
+xpc_event_publisher_t
+xpc_event_publisher_create(const char*, dispatch_queue_t);
+
+XPC_EXPORT
+int
+xpc_event_publisher_fire(xpc_event_publisher_t, uint64_t, int);
+
+XPC_EXPORT
+int
+xpc_event_publisher_fire_noboost(xpc_event_publisher_t, uint64_t, xpc_object_t);
+
+XPC_EXPORT
+void
+xpc_event_publisher_set_handler(xpc_event_publisher_t, void (^)(xpc_event_publisher_action_t action, uint64_t event_token, xpc_object_t descriptor));
+
+XPC_EXPORT
+void
+xpc_event_publisher_set_error_handler(xpc_event_publisher_t, void (^)(int));
+
+#pragma mark Pipes
 
 __OSX_AVAILABLE_STARTING(__MAC_10_9, __IPHONE_7_0)
 XPC_EXPORT XPC_MALLOC XPC_RETURNS_RETAINED XPC_WARN_RESULT XPC_NONNULL1
@@ -204,9 +333,35 @@ kern_return_t
 xpc_pipe_routine_reply(xpc_object_t reply);
 
 __OSX_AVAILABLE_STARTING(__MAC_10_9, __IPHONE_7_0)
+XPC_EXPORT XPC_NONNULL1 XPC_NONNULL2
+kern_return_t
+xpc_pipe_routine_with_flags(xpc_pipe_t pipe, xpc_object_t request, xpc_object_t *reply, uint32_t flags);
+
+__OSX_AVAILABLE_STARTING(__MAC_10_9, __IPHONE_7_0)
+XPC_EXPORT XPC_NONNULL_ALL
+kern_return_t
+xpc_pipe_simpleroutine(xpc_pipe_t pipe, xpc_object_t message);
+
+__OSX_AVAILABLE_STARTING(__MAC_10_9, __IPHONE_7_0)
 XPC_EXPORT XPC_NONNULL1 XPC_NONNULL2 XPC_NONNULL3 XPC_NONNULL4
 kern_return_t
 xpc_pipe_try_receive(mach_port_t *port, xpc_object_t *request, mach_port_t *out_port, xpc_pipe_mig_call_t mig_handler, mach_msg_size_t mig_size, uint64_t flags);
+
+XPC_EXPORT
+void
+xpc_set_event(const char *stream, const char *token, xpc_object_t xdict);
+
+XPC_EXPORT
+void
+xpc_set_event_state(const char *stream, const char *token, boolean_t state);
+
+XPC_EXPORT
+void
+xpc_set_event_with_flags(const char *stream, const char *name, xpc_object_t descriptor, uint64_t flags);
+
+XPC_EXPORT
+void
+xpc_set_idle_handler(void);
 
 __END_DECLS
 XPC_ASSUME_NONNULL_END
