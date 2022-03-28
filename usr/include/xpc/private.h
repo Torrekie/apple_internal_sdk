@@ -4,6 +4,7 @@
 #define __XPC_PRIVATE_H__
 
 #include <dispatch/dispatch.h>
+#include <uuid/uuid.h>
 #include <os/object.h>
 #include <xpc/xpc.h>
 #include <xpc/base.h>
@@ -217,7 +218,8 @@ xpc_track_activity(void);
 
 XPC_EXPORT
 xpc_object_t
-xpc_connection_copy_entitlement_value(xpc_connection_t connection, const char *entitlement);
+xpc_connection_copy_entitlement_value(xpc_connection_t connection,
+	const char *entitlement);
 
 XPC_EXPORT
 void
@@ -251,8 +253,6 @@ XPC_EXPORT
 xpc_object_t
 xpc_copy_entitlement_for_token(const char*, audit_token_t*);
 
-int _xpc_runtime_is_app_sandboxed();
-
 XPC_EXPORT
 boolean_t
 xpc_get_event_name(xpc_event_publisher_t, char *);
@@ -279,7 +279,9 @@ xpc_event_publisher_fire_noboost(xpc_event_publisher_t, uint64_t, xpc_object_t);
 
 XPC_EXPORT
 void
-xpc_event_publisher_set_handler(xpc_event_publisher_t, void (^)(xpc_event_publisher_action_t action, uint64_t event_token, xpc_object_t descriptor));
+xpc_event_publisher_set_handler(xpc_event_publisher_t,
+	void (^)(xpc_event_publisher_action_t action,
+	uint64_t event_token, xpc_object_t descriptor));
 
 XPC_EXPORT
 void
@@ -335,7 +337,8 @@ xpc_pipe_routine_reply(xpc_object_t reply);
 __OSX_AVAILABLE_STARTING(__MAC_10_9, __IPHONE_7_0)
 XPC_EXPORT XPC_NONNULL1 XPC_NONNULL2
 kern_return_t
-xpc_pipe_routine_with_flags(xpc_pipe_t pipe, xpc_object_t request, xpc_object_t *reply, uint32_t flags);
+xpc_pipe_routine_with_flags(xpc_pipe_t pipe, xpc_object_t request,
+	xpc_object_t *reply, uint32_t flags);
 
 __OSX_AVAILABLE_STARTING(__MAC_10_9, __IPHONE_7_0)
 XPC_EXPORT XPC_NONNULL_ALL
@@ -345,7 +348,9 @@ xpc_pipe_simpleroutine(xpc_pipe_t pipe, xpc_object_t message);
 __OSX_AVAILABLE_STARTING(__MAC_10_9, __IPHONE_7_0)
 XPC_EXPORT XPC_NONNULL1 XPC_NONNULL2 XPC_NONNULL3 XPC_NONNULL4
 kern_return_t
-xpc_pipe_try_receive(mach_port_t *port, xpc_object_t *request, mach_port_t *out_port, xpc_pipe_mig_call_t mig_handler, mach_msg_size_t mig_size, uint64_t flags);
+xpc_pipe_try_receive(mach_port_t *port, xpc_object_t *request,
+	mach_port_t *out_port, xpc_pipe_mig_call_t mig_handler,
+	mach_msg_size_t mig_size, uint64_t flags);
 
 XPC_EXPORT
 void
@@ -357,11 +362,103 @@ xpc_set_event_state(const char *stream, const char *token, boolean_t state);
 
 XPC_EXPORT
 void
-xpc_set_event_with_flags(const char *stream, const char *name, xpc_object_t descriptor, uint64_t flags);
+xpc_set_event_with_flags(const char *stream, const char *name,
+	xpc_object_t descriptor, uint64_t flags);
 
 XPC_EXPORT
 void
 xpc_set_idle_handler(void);
+
+XPC_EXPORT
+xpc_object_t
+_xpc_bool_create_distinct(boolean_t value);
+
+XPC_EXPORT
+void
+_xpc_bool_set_value(xpc_object_t xbool, boolean_t value);
+
+__OSX_AVAILABLE_STARTING(__MAC_10_7, __IPHONE_5_0)
+XPC_EXPORT XPC_NONNULL_ALL
+void
+_xpc_connection_set_event_handler_f(xpc_connection_t connection,
+	xpc_handler_t handler);
+
+XPC_EXPORT
+void
+_xpc_data_set_value(xpc_object_t xdata, const void* bytes, size_t length);
+
+XPC_EXPORT
+xpc_object_t
+_xpc_dictionary_create_reply_with_port(mach_port_t port);
+
+XPC_EXPORT
+mach_port_t
+_xpc_dictionary_extract_mach_send(xpc_object_t xdict, const char* key);
+
+XPC_EXPORT
+mach_msg_id_t
+_xpc_dictionary_extract_reply_msg_id(xpc_object_t xdict);
+
+XPC_EXPORT
+mach_port_t
+_xpc_dictionary_extract_reply_port(xpc_object_t xdict);
+
+XPC_EXPORT
+mach_msg_id_t
+_xpc_dictionary_get_reply_msg_id(xpc_object_t xdict);
+
+XPC_EXPORT
+void
+_xpc_dictionary_set_remote_connection(xpc_object_t xdict, xpc_connection_t xconn);
+
+XPC_EXPORT
+void
+_xpc_dictionary_set_reply_msg_id(xpc_object_t xdict, mach_msg_id_t msg_id);
+
+XPC_EXPORT
+void
+_xpc_double_set_value(xpc_object_t xdouble, double value);
+
+XPC_EXPORT
+mach_port_t
+_xpc_fd_get_port(xpc_object_t xfd);
+
+__OSX_AVAILABLE_BUT_DEPRECATED(__MAC_10_4, __MAC_10_10, __IPHONE_2_0, __IPHONE_8_0)
+XPC_EXPORT
+void
+_xpc_int64_set_value(launch_data_t, int64_t);
+
+XPC_EXPORT
+boolean_t
+_xpc_payload_create_from_mach_msg(dispatch_object_t, int mode);
+
+XPC_EXPORT
+xpc_object_t
+_xpc_runtime_get_entitlements_data(void);
+
+XPC_EXPORT
+xpc_object_t
+_xpc_runtime_get_self_entitlements(void);
+
+XPC_EXPORT
+boolean_t
+_xpc_runtime_is_app_sandboxed(void);
+
+XPC_EXPORT
+void
+_xpc_service_last_xref_cancel(xpc_object_t xref);
+
+XPC_EXPORT
+boolean_t
+_xpc_service_routine(uint64_t, xpc_object_t xservice, int *buf);
+
+XPC_EXPORT
+mach_port_t
+_xpc_shmem_get_mach_port(xpc_object_t xshmem);
+
+XPC_EXPORT
+void
+_xpc_string_set_value(xpc_object_t xstring, const char* new_string);
 
 __END_DECLS
 XPC_ASSUME_NONNULL_END
