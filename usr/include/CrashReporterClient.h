@@ -2,8 +2,8 @@
 #ifndef _CRASHREPORTERCLIENT_H_
 #define _CRASHREPORTERCLIENT_H_
 
-/*
 #include <os/base.h>
+#include <sys/types.h>
 
 #define CRASHREPORTER_ANNOTATIONS_SECTION "__crash_info"
 #define CRASHREPORTER_ANNOTATIONS_VERSION 5
@@ -31,13 +31,5 @@ CRASH_REPORTER_CLIENT_HIDDEN
 extern struct crashreporter_annotations_t gCRAnnotations;
 
 __END_DECLS
-*/
-
-// CrashReporterClient seems deprecated for years
-// This was not existing as a system library, but
-// a standalone static lib which was non-public
-
-#define CRGetCrashLogMessage() 0
-#define CRSetCrashLogMessage(x)
 
 #endif // _CRASHREPORTERCLIENT_H_
