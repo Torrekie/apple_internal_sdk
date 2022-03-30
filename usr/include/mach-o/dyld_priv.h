@@ -138,27 +138,39 @@ extern dyld_platform_t dyld_get_active_platform(void);
 #define dyld_fall_2020_os_versions		(dyld_build_version_t) { 0xFFFFFFFF, 0x07E40901 }
 #define dyld_fall_2021_os_versions		(dyld_build_version_t) { 0xFFFFFFFF, 0x07E50901 }
 
+#define dyld_platform_version_macOS_10_12       (dyld_build_version_t) { PLATFORM_MACOS, 0x000A0C00 }
 #define dyld_platform_version_macOS_10_13	(dyld_build_version_t) { PLATFORM_MACOS, 0x000A0D00 }
 #define dyld_platform_version_macOS_10_14	(dyld_build_version_t) { PLATFORM_MACOS, 0x000A0E00 }
 #define dyld_platform_version_macOS_10_15	(dyld_build_version_t) { PLATFORM_MACOS, 0x000A0F00 }
 #define dyld_platform_version_macOS_10_16	(dyld_build_version_t) { PLATFORM_MACOS, 0x000A1000 }
 #define dyld_platform_version_macOS_12_00	(dyld_build_version_t) { PLATFORM_MACOS, 0x000C0000 }
 
+#define dyld_platform_version_tvOS_10_0         (dyld_build_version_t) { PLATFORM_TVOS, 0x000A0000 }
+#define dyld_platform_version_tvOS_11_0         (dyld_build_version_t) { PLATFORM_TVOS, 0x000B0000 }
 #define dyld_platform_version_tvOS_12_0		(dyld_build_version_t) { PLATFORM_TVOS, 0x000C0000 }
 #define dyld_platform_version_tvOS_13_0		(dyld_build_version_t) { PLATFORM_TVOS, 0x000D0000 }
 #define dyld_platform_version_tvOS_14_0		(dyld_build_version_t) { PLATFORM_TVOS, 0x000E0000 }
 #define dyld_platform_version_tvOS_15_0		(dyld_build_version_t) { PLATFORM_TVOS, 0x000F0000 }
 
+#define dyld_platform_version_iOS_10_0          (dyld_build_version_t) { PLATFORM_IOS, 0x000A0000 }
 #define dyld_platform_version_iOS_11_0          (dyld_build_version_t) { PLATFORM_IOS, 0x000B0000 }
 #define dyld_platform_version_iOS_12_0		(dyld_build_version_t) { PLATFORM_IOS, 0x000C0000 }
 #define dyld_platform_version_iOS_13_0		(dyld_build_version_t) { PLATFORM_IOS, 0x000D0000 }
 #define dyld_platform_version_iOS_14_0		(dyld_build_version_t) { PLATFORM_IOS, 0x000E0000 }
 #define dyld_platform_version_iOS_15_0		(dyld_build_version_t) { PLATFORM_IOS, 0x000F0000 }
 
+#define dyld_platform_version_watchOS_3_0       (dyld_build_version_t) { PLATFORM_WATCHOS, 0x00030000 }
+#define dyld_platform_version_watchOS_4_0       (dyld_build_version_t) { PLATFORM_WATCHOS, 0x00040000 }
 #define dyld_platform_version_watchOS_5_0	(dyld_build_version_t) { PLATFORM_WATCHOS, 0x00050000 }
 #define dyld_platform_version_watchOS_6_0	(dyld_build_version_t) { PLATFORM_WATCHOS, 0x00060000 }
 #define dyld_platform_version_watchOS_7_0	(dyld_build_version_t) { PLATFORM_WATCHOS, 0x00070000 }
 #define dyld_platform_version_watchOS_8_0	(dyld_build_version_t) { PLATFORM_WATCHOS, 0x00080000 }
+
+#define dyld_platform_version_bridgeOS_2_0	(dyld_build_version_t) { PLATFORM_BRIDGEOS, 0x00020000 }
+#define dyld_platform_version_bridgeOS_3_0      (dyld_build_version_t) { PLATFORM_BRIDGEOS, 0x00030000 }
+#define dyld_platform_version_bridgeOS_4_0      (dyld_build_version_t) { PLATFORM_BRIDGEOS, 0x00040000 }
+#define dyld_platform_version_bridgeOS_5_0      (dyld_build_version_t) { PLATFORM_BRIDGEOS, 0x00050000 }
+#define dyld_platform_version_bridgeOS_6_0      (dyld_build_version_t) { PLATFORM_BRIDGEOS, 0x00060000 }
 
 // Base platforms are platforms that have version numbers (macOS, iOS, watchos, tvOS, bridgeOS)
 // All other platforms are mapped to a base platform for version checks
