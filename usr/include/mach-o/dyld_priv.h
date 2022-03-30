@@ -138,6 +138,7 @@ extern dyld_platform_t dyld_get_active_platform(void);
 #define dyld_fall_2020_os_versions		(dyld_build_version_t) { 0xFFFFFFFF, 0x07E40901 }
 #define dyld_fall_2021_os_versions		(dyld_build_version_t) { 0xFFFFFFFF, 0x07E50901 }
 
+#define dyld_platform_version_macOS_10_11       (dyld_build_version_t) { PLATFORM_MACOS, 0x000A0B00 }
 #define dyld_platform_version_macOS_10_12       (dyld_build_version_t) { PLATFORM_MACOS, 0x000A0C00 }
 #define dyld_platform_version_macOS_10_13	(dyld_build_version_t) { PLATFORM_MACOS, 0x000A0D00 }
 #define dyld_platform_version_macOS_10_14	(dyld_build_version_t) { PLATFORM_MACOS, 0x000A0E00 }
