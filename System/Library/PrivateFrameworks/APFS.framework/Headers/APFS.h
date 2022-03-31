@@ -8,6 +8,7 @@
 
 #import <APFS/APFSConstants.h>
 #import <CoreFoundation/CoreFoundation.h>
+#import <IOKit/IOKitLib.h>
 
 __BEGIN_DECLS
 
@@ -70,6 +71,12 @@ APFSVolumeCreateForMSU(const char *device, CFDictionaryRef dict);
 
 int
 APFSVolumeDelete(const char *device);
+
+int
+APFSVolumeRole(const char *device, short *role, CFMutableArrayRef *buf);
+
+int
+APFSVolumeRoleFind(const char *device, short role, CFMutableArrayRef *buf);
 
 /*
 APFSContainerGetFreespaceInfo
@@ -136,8 +143,7 @@ APFSVolumeRemoveUnlockRecord
 APFSVolumeResetUnlockRecord
 APFSVolumeResetUnlockRecordWithOptions
 APFSVolumeResumeCrypto
-APFSVolumeRole
-APFSVolumeRoleFind
+
 APFSVolumeSetDefrag
 APFSVolumeSetHint
 APFSVolumeSetUnlockRecord
