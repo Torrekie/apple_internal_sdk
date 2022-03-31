@@ -1,0 +1,119 @@
+#ifndef _APFS_H_
+#define _APFS_H_
+
+#include <os/base.h>
+#include <os/lock.h>
+#include <device/device_types.h>
+
+#import <APFS/APFSConstants.h>
+#import <CoreFoundation/CoreFoundation.h>
+
+__BEGIN_DECLS
+
+int
+APFSCancelContainerResize(os_unfair_lock_t lock);
+
+int
+APFSContainerDefrag(const char *name);
+
+int
+APFSContainerEFIEmbed(const char *bsdName, const char **Ptr, size_t PtrSize);
+
+int
+APFSContainerEFIGetVersion(const char *bsdName, const char **Ptr, size_t PtrSize, void *outputStruct);
+
+/*
+APFSContainerGetBootDevice
+APFSContainerGetDefrag
+APFSContainerGetFreeExtentHistogram
+APFSContainerGetFreespaceInfo
+APFSContainerGetMaxVolumeCount
+APFSContainerGetMinimalSize
+APFSContainerGetResizeProgress
+APFSContainerGetSpaceInfo
+APFSContainerMigrateMediaKeys
+APFSContainerResize
+APFSContainerResizeEx
+APFSContainerSetDefrag
+APFSContainerStitchVolumeGroup
+APFSContainerVolumeGroupAdd
+APFSContainerVolumeGroupGet
+APFSContainerVolumeGroupGetFirmlinks
+APFSContainerVolumeGroupGetSystemAndDataVolumes
+APFSContainerVolumeGroupGetVolumes
+APFSContainerVolumeGroupRemove
+APFSContainerVolumeGroupSyncUnlockRecords
+APFSContainerWipeVolumeKeys
+APFSContainerWriteBurstStats
+APFSExtendedSpaceInfo
+APFSGetFragmentationHistogram
+APFSGetVolumeGroupID
+APFSMakeCompatibleName
+APFSStatistics
+APFSStatisticsProcessContainer
+APFSStreamCreateEstimateProgress
+APFSStreamCreateFinish
+APFSStreamCreatePrepare
+APFSStreamCreateRead
+APFSStreamFingerprintFinish
+APFSStreamFingerprintPrepare
+APFSStreamFingerprintWrite
+APFSStreamRestoreFinish
+APFSStreamRestorePrepare
+APFSStreamRestoreWrite
+APFSUniquifyName
+APFSVolumeAddHints
+APFSVolumeAddHintsWithOptions
+APFSVolumeAddUnlockRecords
+APFSVolumeAddUnlockRecordsWithOptions
+APFSVolumeBindNewKEKToVEK
+APFSVolumeBindNewKEKToVEKWithOptions
+APFSVolumeCreate
+APFSVolumeCreateForMSU
+APFSVolumeDelete
+APFSVolumeDisableFileVault
+APFSVolumeDisableFileVaultWithOptions
+APFSVolumeEnableFilevault
+APFSVolumeEnableFilevaultWithOptions
+APFSVolumeEnableUserProtection
+APFSVolumeEnableUserProtectionWithOptions
+APFSVolumeEscrowVEK
+APFSVolumeGeneratePersonalRecoveryKey
+APFSVolumeGetDefrag
+APFSVolumeGetHint
+APFSVolumeGetSiDPState
+APFSVolumeGetSpaceInfo
+APFSVolumeGetUnlockRecord
+APFSVolumeGetVEKState
+APFSVolumeGetWVEK
+APFSVolumeInfoForUnmountedDisk
+APFSVolumeListUUIDsOfUnlockRecords
+APFSVolumePauseCrypto
+APFSVolumePayloadGet
+APFSVolumePayloadSet
+APFSVolumeQueryCryptoProgress
+APFSVolumeRemoveHint
+APFSVolumeRemoveUnlockRecord
+APFSVolumeResetUnlockRecord
+APFSVolumeResetUnlockRecordWithOptions
+APFSVolumeResumeCrypto
+APFSVolumeRole
+APFSVolumeRoleFind
+APFSVolumeSetDefrag
+APFSVolumeSetHint
+APFSVolumeSetUnlockRecord
+APFSVolumeUnlockAnyUnlockRecord
+APFSVolumeUnlockAnyUnlockRecordWithOptions
+APFSVolumeUnlockGetUnlockRecordState
+APFSVolumeUnlockUnlockRecord
+APFSVolumeUnlockUnlockRecordWithOptions
+APFSVolumeUpdateBounds
+APFSVolumeUpdateUnlockRecord
+APFSVolumeUpdateUnlockRecordWithOptions
+APFSVolumeVerifyUnlockRecord
+APFSVolumeVerifyUnlockRecordWithOptions
+*/
+
+__END_DECLS
+
+#endif
