@@ -30,6 +30,12 @@ __BEGIN_DECLS
 CRASH_REPORTER_CLIENT_HIDDEN
 extern struct crashreporter_annotations_t gCRAnnotations;
 
+// On MacOSX CrashReporter will display a string for each shared library if
+// the shared library has an exported symbol named "__crashreporter_info__".
+__attribute__((__used__))
+extern const char *__crashreporter_info__;
+//asm(".desc ___crashreporter_info__, 0x10");
+
 __END_DECLS
 
 #endif // _CRASHREPORTERCLIENT_H_
