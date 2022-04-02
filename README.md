@@ -67,11 +67,11 @@ Guessed headers of non-public Apple SDK
 
 ## TODO
 
-[ ] Fix `ktrace_event_t` in <ktrace/session.h>
-[ ] Other headers in /usr/include/apfs
-[ ] Installer for this project
-[ ] Text-Based stubs for libraries not presenting in SDKs
-[ ] corecrypto
-[ ] libsystemstats
-[ ] CoreRoutine
-[ ] libspindump_priv.h
+- [ ] Fix `ktrace_event_t` in <ktrace/session.h>
+- [ ] Other headers in /usr/include/apfs
+- [ ] Installer for this project
+- [ ] Text-Based stubs for libraries not presenting in SDKs
+- [ ] corecrypto
+- [ ] libsystemstats
+- [ ] CoreRoutine
+- [ ] libspindump_priv.h
