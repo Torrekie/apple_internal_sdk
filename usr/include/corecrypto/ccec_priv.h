@@ -336,6 +336,9 @@ ccec_make_pub_from_priv(ccec_const_cp_t cp,
                         ccec_const_affine_point_t generator,
                         ccec_pub_ctx_t key);
 
+int
+ccec_generate_blinding_keys(ccec_const_cp_t cp, struct ccrng_state *rng,
+                            ccec_full_ctx_t key, ccec_pub_ctx_t blind);
 /*!
  @function   ccec_generate_key_internal_legacy
  @abstract   Generate key pair for compatiblity purposes or deterministic keys
@@ -493,6 +496,9 @@ ccec_rfc6637_wrap_core(ccec_pub_ctx_t  public_key,
 uint16_t
 pgp_key_checksum(size_t key_len, const uint8_t *key);
 
+int ccec_blind(struct ccrng_state *rng, ccec_full_ctx_t private, ccec_pub_ctx_t public, ccec_pub_ctx_t blind);
+
+int ccec_unblind(struct ccrng_state *rng, ccec_full_ctx_t private, ccec_pub_ctx_t public, ccec_pub_ctx_t blind);
 
 //imports the x and y from the in array in big-endian, sets z to 1
 CC_NONNULL_TU((1,4)) CC_NONNULL((3))

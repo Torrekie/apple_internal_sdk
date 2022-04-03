@@ -416,16 +416,36 @@ size_t ccec_sign_max_size(ccec_const_cp_t cp) {
     return 3 + 2 * (3 + ccec_cp_prime_size(cp));
 }
 
+int ccec_extract_rs(ccec_full_ctx_t key, size_t digest_len, const uint8_t *digest,
+                    uint8_t *sig_r, uint8_t *sig_s);
+
 /*
     Signature in DER format 
 */
 CC_NONNULL_TU((1)) CC_NONNULL((3, 4, 5, 6))
 int ccec_sign(ccec_full_ctx_t key, size_t digest_len, const uint8_t *digest,
               size_t *sig_len, uint8_t *sig, struct ccrng_state *rng);
+CC_NONNULL_TU((1)) CC_NONNULL((4, 5, 6, 7))
+int ccec_sign_msg(ccec_full_ctx_t key, size_t digest_len, size_t len,
+                  const uint8_t *digest, size_t *sig_len, uint8_t *sig,
+                  struct ccrng_state *rng);
 CC_NONNULL_TU((1)) CC_NONNULL((3, 5, 6))
 int ccec_verify(ccec_pub_ctx_t key, size_t digest_len, const uint8_t *digest,
                 size_t sig_len, const uint8_t *sig,  bool *valid);
 
+CC_NONNULL_TU((1)) CC_NONNULL((3, 4, 5, 6))
+int ccec_verify_digest(ccec_pub_ctx_t key, size_t digest_len, const uint8_t *digest,
+                       uint8_t *sig_r, uint8_t *sig_s, bool *valid);
+CC_NONNULL_TU((1)) CC_NONNULL((3, 4, 5, 6))
+int ccec_verify_composite_digest(ccec_pub_ctx_t key, size_t digest_len, const uint8_t *digest,
+                                 uint8_t *sig_r, uint8_t *sig_s, bool *valid);
+CC_NONNULL_TU((1)) CC_NONNULL((4, 5, 6, 7))
+int ccec_verify_msg(ccec_pub_ctx_t key, size_t digest_len, size_t len,
+                    const uint8_t *digest, uint8_t *sig_r, uint8_t *sig_s, bool *valid);
+CC_NONNULL_TU((1)) CC_NONNULL((4, 5, 6, 7))
+int ccec_verify_composite_msg(ccec_pub_ctx_t key, size_t digest_len, size_t len,
+                              const uint8_t *digest, uint8_t *sig_r, uint8_t *sig_s,
+                              bool *valid);
 
 /*
   Raw signature, big endian, padded to the key size.
@@ -437,6 +457,11 @@ ccec_signature_r_s_size(ccec_pub_ctx_t key);
 CC_NONNULL_TU((1)) CC_NONNULL((3, 4, 5, 6))
 int ccec_sign_composite(ccec_full_ctx_t key, size_t digest_len, const uint8_t *digest,
                         uint8_t *sig_r, uint8_t *sig_s, struct ccrng_state *rng);
+
+CC_NONNULL_TU((1)) CC_NONNULL((4, 5, 6, 7))
+int ccec_sign_composite_msg(ccec_full_ctx_t key, size_t digest_len, size_t len,
+                            const uint8_t *digest, uint8_t *sig_r, uint8_t *sig_s,
+                            struct ccrng_state *rng);
 
 CC_NONNULL_TU((1)) CC_NONNULL((3, 4, 5, 6))
 int ccec_verify_composite(ccec_pub_ctx_t key, size_t digest_len, const uint8_t *digest,
@@ -544,6 +569,12 @@ ccec_rfc6637_wrap_key(ccec_pub_ctx_t public_key,
                           const uint8_t *fingerprint,
                           struct ccrng_state *rng);
 
+int ccec_diversify_priv_twin(ccec_const_cp_t cp,
+                             ccec_pub_ctx_t pub_key,
+                             size_t entropy_len, const uint8_t *entropy,
+                             struct ccrng_state *masking_rng,
+                             ccec_pub_ctx_t  diversified_pub_key
+                             );
 /*!
  @function   ccec_diversify_pub
  @abstract   diversified public key with scalar r.
@@ -579,6 +610,13 @@ int ccec_diversify_pub(ccec_const_cp_t cp,
                        ccec_pub_ctx_t  diversified_generator,
                        ccec_pub_ctx_t  diversified_pub_key
                        );
+
+int ccec_diversify_pub_twin(ccec_const_cp_t cp,
+                            ccec_pub_ctx_t pub_key,
+                            size_t entropy_len, const uint8_t *entropy,
+                            struct ccrng_state *masking_rng,
+                            ccec_pub_ctx_t  diversified_pub_key
+                            );
 
 /*!
  @function   ccec_diversify_min_entropy_len
@@ -716,6 +754,8 @@ int ccec_x963_import_priv(ccec_const_cp_t cp, size_t in_len, const uint8_t *in, 
  Output as the same bitlen than p */
 CC_NONNULL_TU((3)) CC_NONNULL2
 void ccec_compact_export(const int fullkey, void *out, ccec_full_ctx_t key);
+
+void ccec_compact_export_pub(void* out, ccec_pub_ctx_t key);
 
 CC_INLINE CC_CONST CC_NONNULL_TU((2))
 size_t ccec_compact_export_size(const int fullkey, ccec_pub_ctx_t key){
