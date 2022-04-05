@@ -31,6 +31,9 @@ Guessed headers of non-public Apple SDK
        - Only few defines and prototypes
     - Other headers not implemented yet
 
+ - corecrypto
+    - Most headers are from previous XNU versions which was not shown in latest
+
  - ktrace.framework
     - ktrace/session.h & ktrace/private.h
        - `fs_usage` and `dyld_usage` compiles, but having wrong struct type (NEED HELP!)
@@ -49,6 +52,8 @@ Guessed headers of non-public Apple SDK
  - sandbox
     - sandbox/private.h
        - Only few defines and prototypes
+    - sandbox/rootless.h
+       - Most `rootless_*` functions implemented
 
  - xcselect_private.h
     - Implemented APIs in `/usr/lib/libxcselect.dylib`
