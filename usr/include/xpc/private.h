@@ -8,14 +8,11 @@
 #include <os/object.h>
 #include <xpc/xpc.h>
 #include <xpc/base.h>
+#include <mach/std_types.h>
 
 #define XPC_ENV_SANDBOX_CONTAINER_ID "APP_SANDBOX_CONTAINER_ID"
 
 #define XPC_PIPE_FLAG_PRIVILEGED (1 << 5)
-
-enum {
-    DISPATCH_MACH_SEND_POSSIBLE = 0x8,
-};
 
 #if !defined(XPC_NOESCAPE)
 #define XPC_NOESCAPE
@@ -33,7 +30,7 @@ typedef boolean_t (*xpc_array_applier_func_t)(size_t, xpc_object_t, void *);
 typedef boolean_t (*xpc_pipe_mig_call_t)(mach_msg_header_t *request, mach_msg_header_t *reply);
 typedef int64_t xpc_service_type_t;
 
-XPC_ASSUME_NONNULL_BEGIN
+//XPC_ASSUME_NONNULL_BEGIN
 __BEGIN_DECLS
 
 #define XPC_TYPE_MACH_SEND (&_xpc_type_mach_send)
@@ -148,10 +145,6 @@ xpc_array_append_value(xpc_object_t xdict, xpc_object_t string);
 
 XPC_EXPORT
 boolean_t
-xpc_array_apply(xpc_object_t xdict, xpc_array_applier_t);
-
-XPC_EXPORT
-boolean_t
 xpc_array_apply_f(xpc_object_t xdict, xpc_array_applier_func_t, void *);
 
 XPC_EXPORT
@@ -251,6 +244,10 @@ xpc_copy_bootstrap(void);
 
 XPC_EXPORT
 xpc_object_t
+xpc_copy_entitlements_for_pid(pid_t pid);
+
+XPC_EXPORT
+xpc_object_t
 xpc_copy_entitlement_for_token(const char*, audit_token_t*);
 
 XPC_EXPORT
@@ -346,7 +343,7 @@ kern_return_t
 xpc_pipe_simpleroutine(xpc_pipe_t pipe, xpc_object_t message);
 
 __OSX_AVAILABLE_STARTING(__MAC_10_9, __IPHONE_7_0)
-XPC_EXPORT XPC_NONNULL1 XPC_NONNULL2 XPC_NONNULL3 XPC_NONNULL4
+XPC_EXPORT
 kern_return_t
 xpc_pipe_try_receive(mach_port_t *port, xpc_object_t *request,
 	mach_port_t *out_port, xpc_pipe_mig_call_t mig_handler,
@@ -461,6 +458,6 @@ void
 _xpc_string_set_value(xpc_object_t xstring, const char* new_string);
 
 __END_DECLS
-XPC_ASSUME_NONNULL_END
+//XPC_ASSUME_NONNULL_END
 
 #endif
