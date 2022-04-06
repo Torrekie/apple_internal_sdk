@@ -118,9 +118,6 @@ sandbox_profile_t *sandbox_compile_file(char *profile_file, sandbox_params_t *pa
 sandbox_profile_t *sandbox_compile_named(char *profile_name, sandbox_params_t *params, char **err);
 sandbox_profile_t *sandbox_compile_string(char *profile_string, sandbox_params_t *params, char **err);
 
-sandbox_profile_t sandbox_compile_file(const char *path, sandbox_params_t, char **error);
-sandbox_profile_t sandbox_compile_string(const char *data, sandbox_params_t, char **error);
-
 int sandbox_consume_extension(const char *path, const char *ext_token);
 int sandbox_consume_fs_extension(const char *ext_token, char **path);
 int sandbox_consume_mach_extension(const char *ext_token, char **name);
