@@ -3,6 +3,8 @@
 
 #include <stdbool.h>
 #include <os/base.h>
+#include <Availability.h>
+
 
 #pragma clang assume_nonnull begin
 
@@ -22,8 +24,11 @@
 
 __BEGIN_DECLS
 
-bool _os_feature_enabled_impl(const char *domain, const char *feature);
-bool _os_feature_enabled_simple_impl(const char *domain, const char *feature, bool status);
+bool _os_feature_enabled_impl(const char *domain, const char *feature)
+__OSX_AVAILABLE_STARTING(__MAC_11_0, __IPHONE_14_0);
+
+bool _os_feature_enabled_simple_impl(const char *domain, const char *feature, bool status)
+__OSX_AVAILABLE_STARTING(__MAC_11_0, __IPHONE_14_0);
 
 __END_DECLS
 
