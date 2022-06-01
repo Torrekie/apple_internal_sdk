@@ -36,7 +36,7 @@ Guessed headers of non-public Apple SDK
 
  - ktrace.framework
     - ktrace/session.h & ktrace/private.h
-       - `fs_usage` and `dyld_usage` compiles, but having wrong struct type (NEED HELP!)
+       - `fs_usage` and `dyld_usage` now works
        - Only few defines and prototypes
 
  - mach-o
@@ -72,7 +72,7 @@ Guessed headers of non-public Apple SDK
 
 ## TODO
 
-- [ ] Fix `ktrace_event_t` in <ktrace/session.h>
+- [x] Fix `ktrace_event_t` in <ktrace/session.h>
 - [ ] Other headers in /usr/include/apfs
 - [ ] Installer for this project
 - [ ] Text-Based stubs for libraries not presenting in SDKs

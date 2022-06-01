@@ -8,19 +8,21 @@
 #include <sys/kdebug.h>
 #include <dispatch/dispatch.h>
 
-// Guessed struct, just for fs_usage and dyld_usage compiles, not sure how real member number and order was (that was really important)
-typedef struct ktrace_event {
-	int debugid;
-	int cpuid;
-	char *command;
+// Possibly missing arg5 or somesort
+struct trace_point {
 	uint64_t timestamp;
-	int64_t threadid;
-	int64_t arg1;
+	uint64_t arg1;
 	uint64_t arg2;
-	int64_t arg3;
-	int64_t arg4;
+	uint64_t arg3;
+	uint64_t arg4;
+	uint64_t threadid;
+	int debugid;
 	struct timeval walltime;
-} *ktrace_event_t;
+	char *command;
+	char *debugname;
+	int cpuid;
+};
+typedef struct trace_point *ktrace_event_t;
 
 typedef int *ktrace_session_t;
 
