@@ -50,6 +50,7 @@ void ktrace_set_uuid_map_enabled(ktrace_session_t s, int mode);
 void ktrace_set_vnode_paths_enabled(ktrace_session_t s, int mode);
 void ktrace_events_range(ktrace_session_t s, int eventid, int compareid, void (^)(ktrace_event_t));
 void ktrace_events_single(ktrace_session_t s, int eventid, void (^)(ktrace_event_t));
+void ktrace_session_set_default_event_names_enabled(ktrace_session_t s, int mode);
 const char *ktrace_get_execname_for_thread(ktrace_session_t s, int64_t threadid);
 const char *ktrace_get_path_for_vp(ktrace_session_t s, int64_t threadid); // In doubt, return might be void* / CFDictionaryRef
 pid_t ktrace_get_pid_for_thread(ktrace_session_t s, int64_t threadid);
