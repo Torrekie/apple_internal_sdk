@@ -1,0 +1,7 @@
+typedef struct __BKSWatchdogAssertion* BKSWatchdogAssertionRef;
+
+CFTypeID BKSWatchdogAssertionGetTypeID();
+void BKSWatchdogAssertionCancel(BKSWatchdogAssertionRef assertion);
+BKSWatchdogAssertionRef BKSWatchdogAssertionCreateForPID(CFAllocatorRef allocator, pid_t pid);
+int BKSWatchdogAssertionRenew(BKSWatchdogAssertionRef assertion);
+CFTimeInterval BKSWatchdogAssertionGetRenewalInterval(BKSWatchdogAssertionRef assertion);

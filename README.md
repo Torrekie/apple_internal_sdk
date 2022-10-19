@@ -9,12 +9,28 @@ Guessed headers of non-public Apple SDK
     - APFS.h & APFSConstants.h
        - Now able to compile `mount` and `fsck` (Targeting iOS) in diskdev_cmds-667.100.2
 
+ - AssertionServices.framework
+    - BackBoardServices headers
+
+ - BackBoardServices.framework
+    - LLDB debugserver compiles
+
  - CoreSymbolication.framework
     - CoreSymbolication.h
        - dtrace-370.40.1 compile pass
 
+ - FrontBoardServices.framework
+    - LLDB debugserver compiles
+
  - MediaKit.framework
     - Now able to compile `mount` (Targeting iOS) in diskdev_cmds-667.100.2
+
+ - MobileCoreServices.framework
+    - LS*.h
+
+ - SpringBoardServices.framework
+    - SpringBoardServices.h
+       - `debugserver` now can use with SpringBoard applications
 
 ### Headers
 
@@ -38,6 +54,10 @@ Guessed headers of non-public Apple SDK
     - ktrace/session.h & ktrace/private.h
        - `fs_usage` and `dyld_usage` now works
        - Only few defines and prototypes
+
+ - liblockdown
+    - lockdown.h
+       - LLDB debugserver compiles
 
  - mach-o
     - mach-o/dyld_priv.h
@@ -77,6 +97,7 @@ Guessed headers of non-public Apple SDK
 - [ ] Installer for this project
 - [ ] Text-Based stubs for libraries not presenting in SDKs
 - [ ] corecrypto
+- [ ] liblockdown
 - [ ] libsystemstats
 - [ ] CoreRoutine
 - [ ] libspindump_priv.h
