@@ -55,6 +55,12 @@ Guessed headers of non-public Apple SDK
        - `fs_usage` and `dyld_usage` now works
        - Only few defines and prototypes
 
+ - perfdata.framework
+    - perfdata/perfdata.h
+    - `ioclasscount` in IOKitTools-122 compiles and works
+    - XNU tests does not compile yet
+    - Only few defines and prototypes
+
  - liblockdown
     - lockdown.h
        - LLDB debugserver compiles
