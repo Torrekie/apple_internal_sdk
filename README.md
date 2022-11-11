@@ -56,10 +56,12 @@ Guessed headers of non-public Apple SDK
        - Only few defines and prototypes
 
  - perfdata.framework
-    - perfdata/perfdata.h
+    - perfdata/perfdata.h & perfdata/perfcheck_keys.h
     - `ioclasscount` in IOKitTools-122 compiles and works
     - XNU tests does not compile yet
-    - Only few defines and prototypes
+    - All `pdunit_*` constants declared
+    - `pdwriter_*` functions partially declared
+    - `json_*` functions not declared at all
 
  - liblockdown
     - lockdown.h
