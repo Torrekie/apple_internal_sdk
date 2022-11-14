@@ -134,8 +134,9 @@ typedef void (^CSSegmentIterator)(CSSegmentRef segment);
 #define kCSSymbolOwnerDataEmpty             		0x00000001
 #define kCSSymbolicatorTrackDyldActivity		0x00080001
 
-#define kCSSymbolicatorDefaultCreateFlags   		0x80000000
-#define kCSSymbolicatorUseSlidKernelAddresses 		0x00000000
+// What we knows is (kCSSymbolicatorDefaultCreateFlags | kCSSymbolicatorUseSlidKernelAddresses) = 0x80000000
+#define kCSSymbolicatorDefaultCreateFlags   		0x00000000
+#define kCSSymbolicatorUseSlidKernelAddresses 		0x80000000
 #define kCSSymbolicatorDisallowDsymData     		0x00080000
 
 #define kCSNotificationPing				0x00000001
@@ -156,12 +157,12 @@ typedef void (^CSSegmentIterator)(CSSegmentRef segment);
 __BEGIN_DECLS
 
 const char* kCSRegionMachHeaderName;
-const CSDictionaryKeyCallBacks kCSTypeDictionaryKeyCallBacks = 0;
-const CSDictionaryValueCallBacks kCSTypeDictionaryValueCallBacks = 0;
-const CSDictionaryKeyCallBacks kCSTypeDictionaryWeakKeyCallBacks = 0;
-const CSDictionaryValueCallBacks kCSTypeDictionaryWeakValueCallBacks = 0;
-const CSSetCallBacks kCSTypeSetCallBacks = 0;
-const CSSetCallBacks kCSTypeSetWeakCallBacks = 0;
+const CSDictionaryKeyCallBacks kCSTypeDictionaryKeyCallBacks;
+const CSDictionaryValueCallBacks kCSTypeDictionaryValueCallBacks;
+const CSDictionaryKeyCallBacks kCSTypeDictionaryWeakKeyCallBacks;
+const CSDictionaryValueCallBacks kCSTypeDictionaryWeakValueCallBacks;
+const CSSetCallBacks kCSTypeSetCallBacks;
+const CSSetCallBacks kCSTypeSetWeakCallBacks;
 
 
 /*
