@@ -117,7 +117,7 @@ typedef void (^CSSegmentIterator)(CSSegmentRef segment);
 /*
  * Defines
  */
-/* Fri Mar 25 16:55:18 CST 2022
+/* Mon Nov 14 19:02:30 CST 2022
  * reversed from libdtrace.dylib in macOS 11.2.3
  */
 #define kCSNull						((CSTypeRef) {NULL, NULL})
@@ -132,12 +132,13 @@ typedef void (^CSSegmentIterator)(CSSegmentRef segment);
 #define kCSSymbolOwnerDataFoundDsym			0x42000000
 #define kCSSymbolOwnerIsAOut				0x00000010
 #define kCSSymbolOwnerDataEmpty             		0x00000001
-#define kCSSymbolicatorTrackDyldActivity		0x00080001
 
 // What we knows is (kCSSymbolicatorDefaultCreateFlags | kCSSymbolicatorUseSlidKernelAddresses) = 0x80000000
+// and (kCSSymbolicatorTrackDyldActivity | kCSSymbolicatorDisallowDsymData) = 0x80001
 #define kCSSymbolicatorDefaultCreateFlags   		0x00000000
 #define kCSSymbolicatorUseSlidKernelAddresses 		0x80000000
 #define kCSSymbolicatorDisallowDsymData     		0x00080000
+#define kCSSymbolicatorTrackDyldActivity                0x00000001
 
 #define kCSNotificationPing				0x00000001
 #define kCSNotificationInitialized			0x00000010
