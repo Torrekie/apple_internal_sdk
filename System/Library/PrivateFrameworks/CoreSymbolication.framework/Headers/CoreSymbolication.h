@@ -55,12 +55,13 @@
 /*
  * Types
  */
-// Under the hood the framework basically just calls through to a set of C++ libraries
+// I thought CSArchitecture was some unsigned long long before, and yes, it should be struct
 typedef struct _CSArchitecture {
 	cpu_type_t cpu_type;
 	cpu_subtype_t cpu_subtype;
-} *CSArchitecture; // I thought CSArchitecture was some unsigned long long before, and yes, it should be struct
+} *CSArchitecture;
 
+// Under the hood the framework basically just calls through to a set of C++ libraries
 struct sCSTypeRef {
 	void* csCppData;	// typically retrieved using CSCppSymbol...::data(csData & 0xFFFFFFF8)
 	void* csCppObj;		// a pointer to the actual CSCppObject
@@ -129,9 +130,19 @@ typedef void (^CSSegmentIterator)(CSSegmentRef segment);
 #define kCSArchitectureI386				(CSArchitecture)0x00000007
 #define kCSArchitectureX86_64				(CSArchitecture)0x01000007
 
-#define kCSSymbolOwnerDataFoundDsym			0x42000000
-#define kCSSymbolOwnerIsAOut				0x00000010
-#define kCSSymbolOwnerDataEmpty             		0x00000001
+/* kCSSymbolOwner* From Xcode.app/SharedFrameworks/CoreSymbolicationDT.framework */
+#define kCSSymbolOwnerDataFaultedFromDisk			0x00000001
+#define kCSSymbolOwnerDataFaultedFromTask			0x00000002
+#define kCSSymbolOwnerDataFaultedFromSelfDyldSharedCache	0x00000004
+#define kCSSymbolOwnerDataFaultedFromDiskDyldSharedCache	0x00000008
+#define kCSSymbolOwnerDataFoundDsym				0x00000010 // Ghidra tells me 0x42000000 when decompiling dtrace
+#define kCSSymbolOwnerDataFoundBinaryNextToDsym			0x00000020
+#define kCSSymbolOwnerDataFoundBinaryViaDsymPlist		0x00000040
+#define kCSSymbolOwnerDataEmpty					0x00000080
+#define KCSSymbolOwnerDataIsTextSegmentOnly			0x00000100
+#define kCSSymbolOwnerDataIsObjCRetainReleaseSupported		0x00000400
+#define kCSSymbolOwnerDataIsObjCGCSupported			0x00000800
+#define kCSSymbolOwnerIsAOut					0x00000010
 
 // What we knows is (kCSSymbolicatorDefaultCreateFlags | kCSSymbolicatorUseSlidKernelAddresses) = 0x80000000
 // and (kCSSymbolicatorTrackDyldActivity | kCSSymbolicatorDisallowDsymData) = 0x80001
