@@ -113,6 +113,148 @@ extern const char* dyld_image_path_containing_address(const void* addr);
 // Exists in Mac OS X 10.11 and later
 extern const struct mach_header* dyld_image_header_containing_address(const void* addr);
 
+// Don't include Darwin21+ constants here, because this is for dyld3
+// Does this part ever exists in previously released SDKs?
+#define DYLD_MACOSX_VERSION_10_0	0x000A0000
+#define DYLD_MACOSX_VERSION_10_1	0x000A0100
+#define DYLD_MACOSX_VERSION_10_2	0x000A0200
+#define DYLD_MACOSX_VERSION_10_3	0x000A0300
+#define DYLD_MACOSX_VERSION_10_4	0x000A0400
+#define DYLD_MACOSX_VERSION_10_5	0x000A0500
+#define DYLD_MACOSX_VERSION_10_6	0x000A0600
+#define DYLD_MACOSX_VERSION_10_7	0x000A0700
+#define DYLD_MACOSX_VERSION_10_8	0x000A0800
+#define DYLD_MACOSX_VERSION_10_9	0x000A0900
+#define DYLD_MACOSX_VERSION_10_10	0x000A0A00
+#define DYLD_MACOSX_VERSION_10_10_2	0x000A0A02
+#define DYLD_MACOSX_VERSION_10_10_3	0x000A0A03
+#define DYLD_MACOSX_VERSION_10_11	0x000A0B00
+#define DYLD_MACOSX_VERSION_10_11_2	0x000A0B02
+#define DYLD_MACOSX_VERSION_10_11_3	0x000A0B03
+#define DYLD_MACOSX_VERSION_10_11_4	0x000A0B04
+#define DYLD_MACOSX_VERSION_10_12	0x000A0C00
+#define DYLD_MACOSX_VERSION_10_12_1	0x000A0C01
+#define DYLD_MACOSX_VERSION_10_12_2	0x000A0C02
+#define DYLD_MACOSX_VERSION_10_12_4	0x000A0C04
+#define DYLD_MACOSX_VERSION_10_13	0x000A0D00
+#define DYLD_MACOSX_VERSION_10_13_1	0x000A0D01
+#define DYLD_MACOSX_VERSION_10_13_2	0x000A0D02
+#define DYLD_MACOSX_VERSION_10_13_4	0x000A0D04
+#define DYLD_MACOSX_VERSION_10_14	0x000A0E00
+#define DYLD_MACOSX_VERSION_10_14_1	0x000A0E01
+#define DYLD_MACOSX_VERSION_10_14_4	0x000A0E04
+#define DYLD_MACOSX_VERSION_10_14_5	0x000A0E05
+#define DYLD_MACOSX_VERSION_10_14_6	0x000A0E06
+#define DYLD_MACOSX_VERSION_10_15	0x000A0F00
+#define DYLD_MACOSX_VERSION_10_15_1	0x000A0F01
+#define DYLD_MACOSX_VERSION_10_16	0x000A1000
+// Alias
+#define DYLD_MACOSX_VERSION_11_00       DYLD_MACOSX_VERSION_10_16
+
+#define DYLD_IOS_VERSION_2_0		0x00020000
+#define DYLD_IOS_VERSION_2_1		0x00020100
+#define DYLD_IOS_VERSION_2_2		0x00020200
+#define DYLD_IOS_VERSION_3_0		0x00030000
+#define DYLD_IOS_VERSION_3_1		0x00030100
+#define DYLD_IOS_VERSION_3_2		0x00030200
+#define DYLD_IOS_VERSION_4_0		0x00040000
+#define DYLD_IOS_VERSION_4_1		0x00040100
+#define DYLD_IOS_VERSION_4_2		0x00040200
+#define DYLD_IOS_VERSION_4_3		0x00040300
+#define DYLD_IOS_VERSION_5_0		0x00050000
+#define DYLD_IOS_VERSION_5_1		0x00050100
+#define DYLD_IOS_VERSION_6_0		0x00060000
+#define DYLD_IOS_VERSION_6_1		0x00060100
+#define DYLD_IOS_VERSION_7_0		0x00070000
+#define DYLD_IOS_VERSION_7_1		0x00070100
+#define DYLD_IOS_VERSION_8_0		0x00080000
+#define DYLD_IOS_VERSION_8_1		0x00080100
+#define DYLD_IOS_VERSION_8_2		0x00080200
+#define DYLD_IOS_VERSION_8_3		0x00080300
+#define DYLD_IOS_VERSION_8_4		0x00080400
+#define DYLD_IOS_VERSION_9_0		0x00090000
+#define DYLD_IOS_VERSION_9_1		0x00090100
+#define DYLD_IOS_VERSION_9_2		0x00090200
+#define DYLD_IOS_VERSION_9_3		0x00090300
+#define DYLD_IOS_VERSION_10_0		0x000A0000
+#define DYLD_IOS_VERSION_10_1		0x000A0100
+#define DYLD_IOS_VERSION_10_2		0x000A0200
+#define DYLD_IOS_VERSION_10_3		0x000A0300
+#define DYLD_IOS_VERSION_11_0		0x000B0000
+#define DYLD_IOS_VERSION_11_1		0x000B0100
+#define DYLD_IOS_VERSION_11_2		0x000B0200
+#define DYLD_IOS_VERSION_11_3		0x000B0300
+#define DYLD_IOS_VERSION_11_4		0x000B0400
+#define DYLD_IOS_VERSION_12_0		0x000C0000
+#define DYLD_IOS_VERSION_12_1		0x000C0100
+#define DYLD_IOS_VERSION_12_2		0x000C0200
+#define DYLD_IOS_VERSION_12_3		0x000C0300
+#define DYLD_IOS_VERSION_12_4		0x000C0400
+#define DYLD_IOS_VERSION_13_0		0x000D0000
+#define DYLD_IOS_VERSION_13_1		0x000D0100
+#define DYLD_IOS_VERSION_13_2		0x000D0200
+#define DYLD_IOS_VERSION_13_3		0x000D0300
+#define DYLD_IOS_VERSION_14_0		0x000E0000
+
+#define DYLD_WATCHOS_VERSION_1_0	0x00010000
+#define DYLD_WATCHOS_VERSION_2_0	0x00020000
+#define DYLD_WATCHOS_VERSION_2_1	0x00020100
+#define DYLD_WATCHOS_VERSION_2_2	0x00020200
+#define DYLD_WATCHOS_VERSION_3_0	0x00030000
+#define DYLD_WATCHOS_VERSION_3_1	0x00030100
+#define DYLD_WATCHOS_VERSION_3_1_1	0x00030101
+#define DYLD_WATCHOS_VERSION_3_2	0x00030200
+#define DYLD_WATCHOS_VERSION_4_0	0x00040000
+#define DYLD_WATCHOS_VERSION_4_1	0x00040100
+#define DYLD_WATCHOS_VERSION_4_2	0x00040200
+#define DYLD_WATCHOS_VERSION_4_3	0x00040300
+#define DYLD_WATCHOS_VERSION_5_0	0x00050000
+#define DYLD_WATCHOS_VERSION_5_1	0x00050100
+#define DYLD_WATCHOS_VERSION_5_2	0x00050200
+#define DYLD_WATCHOS_VERSION_5_3	0x00050300
+#define DYLD_WATCHOS_VERSION_6_0	0x00060000
+#define DYLD_WATCHOS_VERSION_6_1	0x00060100
+#define DYLD_WATCHOS_VERSION_6_2	0x00060200
+#define DYLD_WATCHOS_VERSION_6_2_5	0x00060205
+#define DYLD_WATCHOS_VERSION_6_3	0x00060300
+#define DYLD_WATCHOS_VERSION_7_0	0x00070000
+#define DYLD_WATCHOS_VERSION_7_1	0x00070100
+#define DYLD_WATCHOS_VERSION_7_2	0x00070200
+#define DYLD_WATCHOS_VERSION_7_3	0x00070300
+#define DYLD_WATCHOS_VERSION_7_4	0x00070400
+#define DYLD_WATCHOS_VERSION_7_5	0x00070500
+#define DYLD_WATCHOS_VERSION_7_6	0x00070600
+
+#define DYLD_TVOS_VERSION_9_0		0x00090000
+#define DYLD_TVOS_VERSION_9_1		0x00090100
+#define DYLD_TVOS_VERSION_9_2		0x00090200
+#define DYLD_TVOS_VERSION_10_0		0x000A0000
+#define DYLD_TVOS_VERSION_10_0_1	0x000A0001
+#define DYLD_TVOS_VERSION_10_1		0x000A0100
+#define DYLD_TVOS_VERSION_10_2		0x000A0200
+#define DYLD_TVOS_VERSION_11_0		0x000B0000
+#define DYLD_TVOS_VERSION_11_1		0x000B0100
+#define DYLD_TVOS_VERSION_11_2		0x000B0200
+#define DYLD_TVOS_VERSION_11_3		0x000B0300
+#define DYLD_TVOS_VERSION_11_4		0x000B0400
+#define DYLD_TVOS_VERSION_12_0		0x000C0000
+#define DYLD_TVOS_VERSION_12_1		0x000C0100
+#define DYLD_TVOS_VERSION_12_2		0x000C0200
+#define DYLD_TVOS_VERSION_12_3		0x000C0300
+#define DYLD_TVOS_VERSION_12_4		0x000C0400
+#define DYLD_TVOS_VERSION_13_0		0x000D0000
+#define DYLD_TVOS_VERSION_13_2		0x000D0200
+#define DYLD_TVOS_VERSION_13_3		0x000D0300
+#define DYLD_TVOS_VERSION_14_0		0x000E0000
+
+#define DYLD_BRIDGEOS_VERSION_2_0	0x00020000
+#define DYLD_BRIDGEOS_VERSION_3_0	0x00030000
+#define DYLD_BRIDGEOS_VERSION_3_1	0x00030100
+#define DYLD_BRIDGEOS_VERSION_3_4	0x00030400
+#define DYLD_BRIDGEOS_VERSION_4_0	0x00040000
+#define DYLD_BRIDGEOS_VERSION_4_1	0x00040100
+#define DYLD_BRIDGEOS_VERSION_5_0	0x00050000
+
 //
 // Return the mach header of the process
 //
@@ -138,40 +280,35 @@ extern dyld_platform_t dyld_get_active_platform(void);
 #define dyld_fall_2020_os_versions		(dyld_build_version_t) { 0xFFFFFFFF, 0x07E40901 }
 #define dyld_fall_2021_os_versions		(dyld_build_version_t) { 0xFFFFFFFF, 0x07E50901 }
 
-#define dyld_platform_version_macOS_10_11       (dyld_build_version_t) { PLATFORM_MACOS, 0x000A0B00 }
-#define dyld_platform_version_macOS_10_12       (dyld_build_version_t) { PLATFORM_MACOS, 0x000A0C00 }
-#define dyld_platform_version_macOS_10_13	(dyld_build_version_t) { PLATFORM_MACOS, 0x000A0D00 }
-#define dyld_platform_version_macOS_10_14	(dyld_build_version_t) { PLATFORM_MACOS, 0x000A0E00 }
-#define dyld_platform_version_macOS_10_15	(dyld_build_version_t) { PLATFORM_MACOS, 0x000A0F00 }
-#define dyld_platform_version_macOS_10_16	(dyld_build_version_t) { PLATFORM_MACOS, 0x000A1000 }
-#define dyld_platform_version_macOS_12_00	(dyld_build_version_t) { PLATFORM_MACOS, 0x000C0000 }
+#define dyld_platform_version_macOS_10_11       (dyld_build_version_t) { PLATFORM_MACOS, DYLD_MACOSX_VERSION_10_11 }
+#define dyld_platform_version_macOS_10_12       (dyld_build_version_t) { PLATFORM_MACOS, DYLD_MACOSX_VERSION_10_12 }
+#define dyld_platform_version_macOS_10_13	(dyld_build_version_t) { PLATFORM_MACOS, DYLD_MACOSX_VERSION_10_13 }
+#define dyld_platform_version_macOS_10_14	(dyld_build_version_t) { PLATFORM_MACOS, DYLD_MACOSX_VERSION_10_14 }
+#define dyld_platform_version_macOS_10_15	(dyld_build_version_t) { PLATFORM_MACOS, DYLD_MACOSX_VERSION_10_15 }
+#define dyld_platform_version_macOS_10_16	(dyld_build_version_t) { PLATFORM_MACOS, DYLD_MACOSX_VERSION_10_16 }
 
-#define dyld_platform_version_tvOS_10_0         (dyld_build_version_t) { PLATFORM_TVOS, 0x000A0000 }
-#define dyld_platform_version_tvOS_11_0         (dyld_build_version_t) { PLATFORM_TVOS, 0x000B0000 }
-#define dyld_platform_version_tvOS_12_0		(dyld_build_version_t) { PLATFORM_TVOS, 0x000C0000 }
-#define dyld_platform_version_tvOS_13_0		(dyld_build_version_t) { PLATFORM_TVOS, 0x000D0000 }
-#define dyld_platform_version_tvOS_14_0		(dyld_build_version_t) { PLATFORM_TVOS, 0x000E0000 }
-#define dyld_platform_version_tvOS_15_0		(dyld_build_version_t) { PLATFORM_TVOS, 0x000F0000 }
+#define dyld_platform_version_tvOS_10_0		(dyld_build_version_t) { PLATFORM_TVOS, DYLD_TVOS_VERSION_10_0 }
+#define dyld_platform_version_tvOS_11_0		(dyld_build_version_t) { PLATFORM_TVOS, DYLD_TVOS_VERSION_11_0 }
+#define dyld_platform_version_tvOS_12_0		(dyld_build_version_t) { PLATFORM_TVOS, DYLD_TVOS_VERSION_12_0 }
+#define dyld_platform_version_tvOS_13_0		(dyld_build_version_t) { PLATFORM_TVOS, DYLD_TVOS_VERSION_13_0 }
+#define dyld_platform_version_tvOS_14_0		(dyld_build_version_t) { PLATFORM_TVOS, DYLD_TVOS_VERSION_14_0 }
 
-#define dyld_platform_version_iOS_10_0          (dyld_build_version_t) { PLATFORM_IOS, 0x000A0000 }
-#define dyld_platform_version_iOS_11_0          (dyld_build_version_t) { PLATFORM_IOS, 0x000B0000 }
-#define dyld_platform_version_iOS_12_0		(dyld_build_version_t) { PLATFORM_IOS, 0x000C0000 }
-#define dyld_platform_version_iOS_13_0		(dyld_build_version_t) { PLATFORM_IOS, 0x000D0000 }
-#define dyld_platform_version_iOS_14_0		(dyld_build_version_t) { PLATFORM_IOS, 0x000E0000 }
-#define dyld_platform_version_iOS_15_0		(dyld_build_version_t) { PLATFORM_IOS, 0x000F0000 }
+#define dyld_platform_version_iOS_10_0          (dyld_build_version_t) { PLATFORM_IOS, DYLD_IOS_VERSION_10_0 }
+#define dyld_platform_version_iOS_11_0          (dyld_build_version_t) { PLATFORM_IOS, DYLD_IOS_VERSION_11_0 }
+#define dyld_platform_version_iOS_12_0		(dyld_build_version_t) { PLATFORM_IOS, DYLD_IOS_VERSION_12_0 }
+#define dyld_platform_version_iOS_13_0		(dyld_build_version_t) { PLATFORM_IOS, DYLD_IOS_VERSION_13_0 }
+#define dyld_platform_version_iOS_14_0		(dyld_build_version_t) { PLATFORM_IOS, DYLD_IOS_VERSION_14_0 }
 
-#define dyld_platform_version_watchOS_3_0       (dyld_build_version_t) { PLATFORM_WATCHOS, 0x00030000 }
-#define dyld_platform_version_watchOS_4_0       (dyld_build_version_t) { PLATFORM_WATCHOS, 0x00040000 }
-#define dyld_platform_version_watchOS_5_0	(dyld_build_version_t) { PLATFORM_WATCHOS, 0x00050000 }
-#define dyld_platform_version_watchOS_6_0	(dyld_build_version_t) { PLATFORM_WATCHOS, 0x00060000 }
-#define dyld_platform_version_watchOS_7_0	(dyld_build_version_t) { PLATFORM_WATCHOS, 0x00070000 }
-#define dyld_platform_version_watchOS_8_0	(dyld_build_version_t) { PLATFORM_WATCHOS, 0x00080000 }
+#define dyld_platform_version_watchOS_3_0       (dyld_build_version_t) { PLATFORM_WATCHOS, DYLD_WATCHOS_VERSION_3_0 }
+#define dyld_platform_version_watchOS_4_0       (dyld_build_version_t) { PLATFORM_WATCHOS, DYLD_WATCHOS_VERSION_4_0 }
+#define dyld_platform_version_watchOS_5_0	(dyld_build_version_t) { PLATFORM_WATCHOS, DYLD_WATCHOS_VERSION_5_0 }
+#define dyld_platform_version_watchOS_6_0	(dyld_build_version_t) { PLATFORM_WATCHOS, DYLD_WATCHOS_VERSION_6_0 }
+#define dyld_platform_version_watchOS_7_0	(dyld_build_version_t) { PLATFORM_WATCHOS, DYLD_WATCHOS_VERSION_7_0 }
 
-#define dyld_platform_version_bridgeOS_2_0	(dyld_build_version_t) { PLATFORM_BRIDGEOS, 0x00020000 }
-#define dyld_platform_version_bridgeOS_3_0      (dyld_build_version_t) { PLATFORM_BRIDGEOS, 0x00030000 }
-#define dyld_platform_version_bridgeOS_4_0      (dyld_build_version_t) { PLATFORM_BRIDGEOS, 0x00040000 }
-#define dyld_platform_version_bridgeOS_5_0      (dyld_build_version_t) { PLATFORM_BRIDGEOS, 0x00050000 }
-#define dyld_platform_version_bridgeOS_6_0      (dyld_build_version_t) { PLATFORM_BRIDGEOS, 0x00060000 }
+#define dyld_platform_version_bridgeOS_2_0	(dyld_build_version_t) { PLATFORM_BRIDGEOS, DYLD_BRIDGEOS_VERSION_2_0 }
+#define dyld_platform_version_bridgeOS_3_0      (dyld_build_version_t) { PLATFORM_BRIDGEOS, DYLD_BRIDGEOS_VERSION_3_0 }
+#define dyld_platform_version_bridgeOS_4_0      (dyld_build_version_t) { PLATFORM_BRIDGEOS, DYLD_BRIDGEOS_VERSION_4_0 }
+#define dyld_platform_version_bridgeOS_5_0      (dyld_build_version_t) { PLATFORM_BRIDGEOS, DYLD_BRIDGEOS_VERSION_5_0 }
 
 // Base platforms are platforms that have version numbers (macOS, iOS, watchos, tvOS, bridgeOS)
 // All other platforms are mapped to a base platform for version checks
