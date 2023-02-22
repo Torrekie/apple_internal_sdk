@@ -43,6 +43,7 @@ int ktrace_set_completion_handler(ktrace_session_t s, void (^)(void));
 int ktrace_set_dropped_events_handler(ktrace_session_t s, void (^)(void));
 int ktrace_convert_timestamp_to_nanoseconds(ktrace_session_t s, int64_t mach_time, uint64_t *nanoseconds);
 int ktrace_ignore_process_filter_for_event(ktrace_session_t s, int diskio_mode);
+int ktrace_set_thread_exit_handler(ktrace_session_t s, void (^)(uint64_t, const char*));
 void ktrace_set_signal_handler(ktrace_session_t s);
 void ktrace_set_default_event_names_enabled(int mode);
 void ktrace_set_execnames_enabled(ktrace_session_t s, int mode);
