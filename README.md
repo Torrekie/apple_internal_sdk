@@ -83,6 +83,10 @@ Guessed headers of non-public Apple SDK
     - sandbox/rootless.h
        - Most `rootless_*` functions implemented
 
+ - sysmon
+    - sysmon.h
+       - `pkill`/`pgrep` now works
+
  - xcselect_private.h
     - Implemented APIs in `/usr/lib/libxcselect.dylib`
 
@@ -109,3 +113,4 @@ Guessed headers of non-public Apple SDK
 - [ ] libsystemstats
 - [ ] CoreRoutine
 - [ ] libspindump_priv.h
+- [ ] SoftLinking headers
