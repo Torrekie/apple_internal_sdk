@@ -18,4 +18,6 @@
 CFTypeRef LACreateNewContextWithACMContext(CFDataRef acm_context, CFErrorRef *error);
 bool LAEvaluatePolicy(CFTypeRef context, const int policy, CFMutableDictionaryRef options, CFErrorRef *error);
 
+bool LAVerifySEP(uid_t pw_uid, CFErrorRef *error);
+
 #endif
