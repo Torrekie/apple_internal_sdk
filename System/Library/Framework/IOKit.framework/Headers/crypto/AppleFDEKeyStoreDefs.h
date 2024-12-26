@@ -24,7 +24,7 @@ typedef struct uuid_OutStruct
 typedef CF_ENUM(UInt8, FDEIndex)
 {
 	kAppleFDEKeyStoreUserClientOpen,
-	kAppleFDEKeyStoreUserClientClose
+	kAppleFDEKeyStoreUserClientClose,
 
 	kAppleFDEKeyStore_createKeyGetUUID = 27,
 };
