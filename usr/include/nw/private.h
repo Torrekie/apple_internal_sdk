@@ -16,6 +16,12 @@ typedef struct conninfo {
 	void				*ci_aux_data;		/* auxiliary data */
 } conninfo_t;
 
+// not sure
+typedef struct nw_nat64_prefix {
+	__uint32_t length;
+	void *buffer;
+} nw_nat64_prefix_t;
+
 __BEGIN_DECLS
 
 extern int copyassocids(int, sae_associd_t **, uint32_t *);

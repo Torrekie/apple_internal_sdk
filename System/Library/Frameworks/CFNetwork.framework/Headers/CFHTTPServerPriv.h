@@ -82,6 +82,43 @@ extern "C" {
     #pragma enumsalwaysint on
 #endif
 
+/* Torrekie: We knows nothing about _CFHTTPServerRequest, this leak was too old */
+typedef struct _CFHTTPServerRequest *_CFHTTPServerRequestRef;
+typedef struct _CFHTTPServerResponse *_CFHTTPServerResponseRef;
+typedef struct _CFHTTPServerConnection *_CFHTTPServerConnectionRef;
+
+#define _kCFHTTPServerClientCurrentVersion 0
+
+/* Exactly same*/
+struct _CFHTTPServerClient {
+  CFIndex			version;
+  void *	__nullable	info;
+  CFAllocatorRetainCallBack __nullable retain;
+  CFAllocatorReleaseCallBack __nullable release;
+  CFAllocatorCopyDescriptionCallBack __nullable copyDescription;
+};
+typedef struct _CFHTTPServerClient _CFHTTPServerClient;
+
+#define _kCFHTTPServerCallbacksCurrentVersion 1
+
+typedef struct _CFHTTPServerCallbacks {
+  CFIndex version;
+  void * __nullable becomeInvalid;
+  void * __nullable receiveError;
+  void * __nullable openConn;
+  void * __nullable closeConn;
+} _CFHTTPServerCallbacks;
+
+#define _kCFHTTPServerConnectionCallbacksCurrentVersion 1
+
+typedef struct _CFHTTPServerConnectionCallbacks {
+  CFIndex version;
+  void * __nullable becomeInvalid;
+  void * __nullable receiveError;
+  void * __nullable receiveReq;
+  void * __nullable sendResponse;
+  void * __nullable failSend;
+} _CFHTTPServerConnectionCallbacks;
 
 /*
  *  _CFHTTPServerError
@@ -579,12 +616,62 @@ _CFHTTPServerAddResponse(
  *      the body's data to the requesting client.
  *
  */
+extern const CFStringRef _kCFHTTPServerRequestMethod;
+
 extern void
 _CFHTTPServerAddStreamedResponse(
   _CFHTTPServerRef   server,
   CFHTTPMessageRef   request,
   CFHTTPMessageRef   responseHeaders,
   CFReadStreamRef    body)                                    AVAILABLE_MAC_OS_X_VERSION_10_3_AND_LATER;
+
+
+CFHTTPMessageRef
+_CFHTTPServerRequestCreateResponseMessage(
+  _CFHTTPServerRequestRef req,
+  int statusCode);
+
+_CFHTTPServerResponseRef
+_CFHTTPServerResponseCreateWithData(
+  _CFHTTPServerRequestRef req,
+  CFHTTPMessageRef msg,
+  CFDataRef data);
+
+void
+_CFHTTPServerConnectionScheduleWithRunLoopAndMode(
+  _CFHTTPServerConnectionRef conn,
+  CFRunLoopRef loop,
+  CFRunLoopMode mode);
+
+void
+_CFHTTPServerScheduleWithRunLoopAndMode(
+  _CFHTTPServerConnectionRef conn,
+  CFRunLoopRef loop,
+  CFRunLoopMode mode);
+
+_CFHTTPServerRef
+_CFHTTPServerCreateService(
+  CFAllocatorRef alloc,
+  _CFHTTPServerClient *client,
+  _CFHTTPServerCallbacks *callback,
+  CFStringRef s,
+  CFStringRef mark,
+  int port);
+
+void
+_CFHTTPServerConnectionSetClient(
+  _CFHTTPServerConnectionRef conn,
+  _CFHTTPServerClient *client,
+  _CFHTTPServerConnectionCallbacks *callbacks);
+
+Boolean
+_CFHTTPServerIsValid(_CFHTTPServerRef ref);
+
+void
+_CFHTTPServerResponseEnqueue(_CFHTTPServerResponseRef response);
+
+CFStringRef
+_CFHTTPServerRequestCopyProperty(_CFHTTPServerRequestRef req, CFStringRef key);
 
 
 
