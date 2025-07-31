@@ -11,14 +11,14 @@ enum {
 };
 
 typedef enum {
-	kCPBitmapFormat_RGBA,	// Guessed
-	kCPBitmapFormat_RGB_CondAlpha, // Guessed
-	kCPBitmapFormat_RGB565,	// Guessed
-	kCPBitmapFormat_Gray,	// Guessed
+	kCPBitmapFormat_RGBA,		// Guessed
+	kCPBitmapFormat_RGB_CondAlpha,	// Guessed
+	kCPBitmapFormat_RGB565,		// Guessed
+	kCPBitmapFormat_Gray,		// Guessed
 	kCPBitmapFormatKTX_4x4,
 	kCPBitmapFormat_GrayAlpha,	// Guessed
 	kCPBitmapFormatATX_4x4_PreTwiddled,
-	kCPBitmapFormatATX_4x4_AlphaOnly// Guessed
+	kCPBitmapFormatATX_4x4_420f	// Guessed
 } CPBitmapFormat;
 
 typedef const struct CF_BRIDGED_TYPE(id) __CPBitmapWriter * CPBitmapWriterRef;
@@ -35,13 +35,13 @@ CFArrayRef CPBitmapCreateImagesFromPath(CFStringRef path, CFPropertyListRef *lis
 #pragma mark -- Writer
 
 // Quick shortcut to CPBitmapWriterCreateWithPath + CPBitmapWriterAddImage + CPBitmapWriterFinalize
-bool CPBitmapWriteImagesToPath(CFArrayRef images, CPBitmapFormat bitmapFormat, CFPropertyListRef list, CFStringRef path, bool retainColorSpace, CFErrorRef *error);
+bool CPBitmapWriteImagesToPath(CFArrayRef images, CPBitmapFormat bitmapFormat, CFPropertyListRef list, CFStringRef path, bool convertColorSpace, CFErrorRef *error);
 
 CFTypeID CPBitmapWriterGetTypeID(void);
 
-CPBitmapWriterRef CPBitmapWriterCreate(CPBitmapFormat bitmapFormat, CFPropertyListRef list, CFStringRef path, bool retainColorSpace, CFErrorRef *error);
-CPBitmapWriterRef CPBitmapWriterCreateWithFileDescriptor(int fd, CPBitmapFormat bitmapFormat, bool retainColorSpace, uint64_t count, CFPropertyListRef list, CFErrorRef *error);
-CPBitmapWriterRef CPBitmapWriterCreateWithPath(CFStringRef path, CPBitmapFormat bitmapFormat, bool retainColorSpace, uint64_t count, CFPropertyListRef list, CFErrorRef *error);
+CPBitmapWriterRef CPBitmapWriterCreate(CPBitmapFormat bitmapFormat, CFPropertyListRef list, CFStringRef path, bool convertColorSpace, CFErrorRef *error);
+CPBitmapWriterRef CPBitmapWriterCreateWithFileDescriptor(int fd, CPBitmapFormat bitmapFormat, bool convertColorSpace, uint64_t count, CFPropertyListRef list, CFErrorRef *error);
+CPBitmapWriterRef CPBitmapWriterCreateWithPath(CFStringRef path, CPBitmapFormat bitmapFormat, bool convertColorSpace, uint64_t count, CFPropertyListRef list, CFErrorRef *error);
 
 bool CPBitmapWriterAddImage(CPBitmapWriterRef writer, CGImageRef img, CFErrorRef *error);
 
