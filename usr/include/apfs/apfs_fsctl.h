@@ -16,6 +16,9 @@ typedef struct {
 #define APFSIOC_FIRMLINK_CTL	0xc4084a3c
 #define APFSIOC_XDSTREAM_OBJ_ID	0xc0104a35
 
+#define APFS_PURGEABLE_FLAGS_MASK 0xFFFF
+
+#define APFSIOC_GET_PURGEABLE_FILE_FLAGS _IOR('J', 71, uint64_t)
 #define APFSIOC_CREATE_SYNTHETIC_SYMLINK _IOW('J', 75, apfs_create_synth_symlink_t)
 #define APFSIOC_CREATE_HIDDEN_SYNTHETIC_SYMLINK _IOW('J', 78, apfs_create_synth_symlink_t)
 
