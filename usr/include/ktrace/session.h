@@ -8,22 +8,41 @@
 #include <sys/kdebug.h>
 #include <dispatch/dispatch.h>
 
-// Possibly missing arg5 or somesort
 struct trace_point {
 	uint64_t timestamp;
+
 	uint64_t arg1;
 	uint64_t arg2;
 	uint64_t arg3;
 	uint64_t arg4;
+
 	uint64_t threadid;
-	int debugid;
+	unsigned int debugid;
+	unsigned int cpuid;
+
 	struct timeval walltime;
-	char *command;
-	char *debugname;
-	int cpuid;
+
+	char *debugname;		/* eventname */
+	char *command;			/* execname */
+	int pid;
 };
 typedef struct trace_point *ktrace_event_t;
 
+// Use these names before we knows how it really called
+typedef enum {
+	KTP_KIND_JSON,
+	KTP_KIND_JSON_64,	/* Numbers printed as llu */
+	KTP_KIND_CSV
+} ktp_kind_t;
+typedef enum {
+	KTP_FLAG_WALLTIME	= (1 << 0),
+	KTP_FLAG_THREADNAME	= (1 << 1),
+	KTP_FLAG_PID		= (1 << 2),
+	KTP_FLAG_EVENTNAME 	= (1 << 3),
+	KTP_FLAG_EXECNAME	= (1 << 4)
+} ktp_flag_t;
+
+/* This has to be int ptr, since fs_usage is reading the first member as int */
 typedef int *ktrace_session_t;
 
 __BEGIN_DECLS
@@ -50,11 +69,13 @@ void ktrace_set_execnames_enabled(ktrace_session_t s, int mode);
 void ktrace_set_uuid_map_enabled(ktrace_session_t s, int mode);
 void ktrace_set_vnode_paths_enabled(ktrace_session_t s, int mode);
 void ktrace_events_range(ktrace_session_t s, int eventid, int compareid, void (^)(ktrace_event_t));
-void ktrace_events_single(ktrace_session_t s, int eventid, void (^)(ktrace_event_t));
+void ktrace_eventds_single(ktrace_session_t s, int eventid, void (^)(ktrace_event_t));
 void ktrace_session_set_default_event_names_enabled(ktrace_session_t s, int mode);
 const char *ktrace_get_execname_for_thread(ktrace_session_t s, int64_t threadid);
 const char *ktrace_get_path_for_vp(ktrace_session_t s, int64_t threadid); // In doubt, return might be void* / CFDictionaryRef
 pid_t ktrace_get_pid_for_thread(ktrace_session_t s, int64_t threadid);
+
+int ktrace_print_trace_point(FILE *fd, ktrace_session_t s, ktp_kind_t kind, ktp_flag_t flags);
 
 __END_DECLS
 
